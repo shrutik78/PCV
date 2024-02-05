@@ -55,7 +55,8 @@
     <div class="tabContent"  (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Wheels</div>
     <div class="tabContent" (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Roof</div>
     <div class="tabContent"  (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">Logo</div>
-    <div class="tabContent"  (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''">Mirror</div>
+    <div  (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''"></div>
+    
 
   </div>
 
@@ -64,43 +65,54 @@
     <button mat-raised-button color="primary" (click)="next()">Next</button>
   </div> 
 
-
-<!-- Assuming you have tabs to switch between different content -->
-<!-- For each tab, update the checkbox directly within ngFor -->
-<div *ngIf="!isButtonDivVisible" class="tabContentdiv">
-
-  <!-- Tab 1 -->
-  <div [ngClass]="{'show': activeDiv === 1, 'hide': activeDiv !== 1}">
-    <span *ngFor="let img of wheelData; let i = index">
+ <div *ngIf="!isButtonDivVisible" class="tabContentdiv">
+<!-- Tab 1 -->
+<div [ngClass]="{'show': activeDiv === 1, 'hide': activeDiv !== 1}">
+  <div *ngFor="let img of wheelData; let i = index">
+    <div (click)="onImageSelected(img,1)" class="imgcontent">
       <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img)" (change)="onImageSelected(img)">
-    </span>
+      <div class="check-box">
+      <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img,1)" >
+    </div>
   </div>
+  </div>
+</div>
 
-  <!-- Tab 2 -->
-  <div [ngClass]="{'show': activeDiv === 2, 'hide': activeDiv !== 2}">
-    <span *ngFor="let img of roofData; let i=index">
-      <img src="{{ baseUrl + img.image }}" alt="" >
-      <input type="checkbox" [checked]="isSelected(img)" (change)="onImageSelected(img)">
-    </span>
-  </div>
 
-  <!-- Tab 3 -->
-  <div [ngClass]="{'show': activeDiv === 3, 'hide': activeDiv !== 3}">
-    <span *ngFor="let img of logoData; let i=index">
-      <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img)" (change)="onImageSelected(img)">
-    </span>
+<!-- Tab 2 -->
+<div [ngClass]="{'show': activeDiv === 2, 'hide': activeDiv !== 2}">
+  <div *ngFor="let img of roofData; let i=index">
+    <div (click)="onImageSelected(img,2)" class="imgcontent">
+    <img src="{{ baseUrl + img.image }}" alt="">
+    <div class="check-box">
+    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)">
   </div>
+  </div>
+  </div>
+</div>
+
+<!-- Tab 3 -->
+<div [ngClass]="{'show': activeDiv === 3, 'hide': activeDiv !== 3}">
+  <div *ngFor="let img of logoData; let i=index">
+    <div (click)="onImageSelected(img,3)" class="imgcontent">
+    <img src="{{ baseUrl + img.image }}" alt="">
+    <div class="check-box">
+    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)">
+  </div>
+  </div>
+</div>
+
+</div>
 
   <!-- Content 4 -->
-  <div [ngClass]="{'show': activeDiv === 4, 'hide': activeDiv !== 4}">
-    <p>CONTENT 4</p>
-    <div *ngFor="let img of getSelectedImages()">
+  <div [ngClass]="{'show': activeDiv === 4, 'hide': activeDiv !== 4}"  >
+    <div *ngFor="let img of getSelectedImages()" class="imgcontent">
       <img [src]="baseUrl + img.image" alt="">
     </div>
   </div>
-  
+  <div class="action" >
+    <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv==3" >Submit </button>
+  </div>
 </div>
 
 

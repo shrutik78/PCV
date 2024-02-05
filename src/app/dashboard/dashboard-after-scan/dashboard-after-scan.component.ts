@@ -21,10 +21,12 @@ logoData:any[]=[];
  
 ngOnInit(): void {
 
-    this.fetchImages()
+    this.getwheelImages()
     this.getlogoImages()
     this.getroofImages()
     this.vinNumber =  this.activeRoute.snapshot.params['vinNumber']
+
+    console.log(this.wheelData)
     this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
       console.log("response", res)
       this.data=res.data;
@@ -32,7 +34,7 @@ ngOnInit(): void {
 }
 
 
-  fetchImages(){
+  getwheelImages(){
     this.image.getWheelImages().subscribe((data:any)=>{   
       this.wheelData=data.WheelImages;
     });
@@ -50,37 +52,67 @@ ngOnInit(): void {
     })
   }
 
-  // selectImage(img: any) {
-  //   this.selectedImage = img;
-  //   this.activeDiv = 4; // Show Content 4
-  // }
+
+//   selectedImages:any[]=[]
+// handleCheckboxChange(index: number): void {
+//   const selectedWheel = this.wheelData[index];
+
+//   // Toggle the checked state
+//   selectedWheel.checked = !selectedWheel.checked;
+
+//   // Add or remove from the selectedImages array based on the checked state
+//   if (selectedWheel.checked) {
+//     this.selectedImages.push(selectedWheel.image);
+//   } else {
+//     const indexToRemove = this.selectedImages.indexOf(selectedWheel.image);
+//     if (indexToRemove !== -1) {
+//       this.selectedImages.splice(indexToRemove, 1);
+//     }
+//   }
+// }
+
+
   
   selectedImages: any[] = [];
-
-  isSelected(img: any): boolean {
-    return this.selectedImages.some(selectedImg => selectedImg.image === img.image);
+  visitedTabs: Set<number> = new Set();
+  
+  isSelected(img: any, tab: number): boolean {
+    return this.selectedImages.some(selectedImg => selectedImg.image === img.image && selectedImg.tab === tab);
   }
   
   getSelectedImages(): any[] {
     return this.selectedImages.filter(img => img.selected);
   }
   
-  onImageSelected(selectedImage: any) {
+  onImageSelected(selectedImage: any, tab: number) {
+    // Unselect the previously selected images in the same tab
+    this.selectedImages = this.selectedImages.filter(img => !(img.tab === tab));
+  
     // Check if the image is already selected
-    const index = this.selectedImages.findIndex(img => img.image === selectedImage.image);
+    const index = this.selectedImages.findIndex(img => img.image === selectedImage.image && img.tab === tab);
   
     if (index !== -1) {
       // If already selected, remove it
       this.selectedImages.splice(index, 1);
     } else {
       // If not selected, add it
-      this.selectedImages.push(selectedImage);
+      this.selectedImages.push({ ...selectedImage, tab, selected: true });
     }
   
-    this.activeDiv = 4;
-  }
+    this.visitedTabs.add(tab);
   
-
+    // Check if all tabs have been visited
+    // if (this.visitedTabs.size === 3 && this.selectedImages.length === 3) {
+    //   this.activeDiv = 4;
+    // }
+  }
+isSubmitted: boolean = false;
+onSubmit(){
+  this.isSubmitted = true;
+  this.activeDiv=4
+  console.log(this.selectedImages)
+  
+}
 
   // selectedImage: any = null;  // Variable to store the selected image
 

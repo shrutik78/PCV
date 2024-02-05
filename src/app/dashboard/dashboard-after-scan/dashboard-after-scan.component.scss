@@ -1,39 +1,43 @@
-@mixin for-tab {
-  @media (max-width: 768px) {
-    @content;
-  }
-}
+
+
 
 .container{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height:100vh;
+  // width: 100%;
 
-  .title{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 1.5rem;
-    padding:2rem;
-  }
-
-  .content{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    //justify-content: center;
+  
+  .title{
+ 
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 1.5rem;
+      padding:1rem;
+    
+  
+  }
+
+  .content{
+  
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
     background-color: #fff;
     border-radius: 2rem;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-    width: 60rem;
+    width: 57rem;
+  
     section{
       display: flex;
       flex-direction: row;
       align-items: center;
       gap:1.5rem;
-
+    
     }
     .controls{
       display: grid;
@@ -48,8 +52,8 @@
         width:20rem;
       }
     }
-  }
-
+  
+}
 
 }
 .sub-content{
@@ -87,29 +91,55 @@
   display: flex;
   justify-content: space-evenly;
     gap: 50rem;
-    padding: 2rem;
+    padding: 1rem;
     button{
       width:1.5rem;
     }
   }
   .tabContentdiv {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: space-evenly; 
+    margin-left:1rem;
+    margin-block-start: 0.5rem;
  
+    .action{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      button{
+        width:8rem;
+      }
+     }
   }
   
     
   .show {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap:1rem;
-    overflow-y: scroll;
-    img{
-      width: 200px;
-      height:160px;
-      margin-bottom: 20px; 
+    gap:0.3rem;
+    .imgcontent{
+      // margin-block-start: 0.5rem;
+      // margin-left: 0.5rem;
+   
+      img{
+        width: 185px;
+        height:150px;
+        margin-top: 20px; 
+  
+      
+      }
+      .check-box{
+        position:absolute;
+        input{
+          margin-left: 5.5rem;
+        }
+      }
     }
+
+   
   }
   
   .hide {
@@ -119,9 +149,4 @@
 }
 
 
-    // .vinNumber{
-    //   height: 2.5rem;
-    //   font-size: 1rem;
-    //   //border: solid 2px black;
-    //   //background-color: rgb(177, 177, 177);
-    // }
+   
