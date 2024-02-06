@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ImagesService } from 'src/app/services/images.service';
@@ -25,13 +25,23 @@ ngOnInit(): void {
     this.getlogoImages()
     this.getroofImages()
     this.vinNumber =  this.activeRoute.snapshot.params['vinNumber']
-
+    // this.wheelData.forEach(wheel => {
+    //   wheel.checked = false;
+    // });  this.logoData.forEach(logo => {
+    //   logo.checked = false;
+    // }); this.roofData.forEach(roof =>{
+    //   roof.checked =false;
+    // })
     console.log(this.wheelData)
     this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
       console.log("response", res)
       this.data=res.data;
     })
+ 
 }
+
+
+
 
 
   getwheelImages(){
@@ -53,27 +63,27 @@ ngOnInit(): void {
   }
 
 
-//   selectedImages:any[]=[]
-// handleCheckboxChange(index: number): void {
-//   const selectedWheel = this.wheelData[index];
+  selectedImages:any[]=[]
+handleCheckboxChange(index: number): void {
+  const selectedWheel = this.wheelData[index];
 
-//   // Toggle the checked state
-//   selectedWheel.checked = !selectedWheel.checked;
+  // Toggle the checked state
+  selectedWheel.checked = !selectedWheel.checked;
 
-//   // Add or remove from the selectedImages array based on the checked state
-//   if (selectedWheel.checked) {
-//     this.selectedImages.push(selectedWheel.image);
-//   } else {
-//     const indexToRemove = this.selectedImages.indexOf(selectedWheel.image);
-//     if (indexToRemove !== -1) {
-//       this.selectedImages.splice(indexToRemove, 1);
-//     }
-//   }
-// }
+  // Add or remove from the selectedImages array based on the checked state
+  if (selectedWheel.checked) {
+    this.selectedImages.push(selectedWheel.image);
+  } else {
+    const indexToRemove = this.selectedImages.indexOf(selectedWheel.image);
+    if (indexToRemove !== -1) {
+      this.selectedImages.splice(indexToRemove, 1);
+    }
+  }
+}
 
 
   
-  selectedImages: any[] = [];
+  // selectedImages: any[] = [];
   visitedTabs: Set<number> = new Set();
   
   isSelected(img: any, tab: number): boolean {
@@ -102,14 +112,15 @@ ngOnInit(): void {
     this.visitedTabs.add(tab);
   
     // Check if all tabs have been visited
-    // if (this.visitedTabs.size === 3 && this.selectedImages.length === 3) {
-    //   this.activeDiv = 4;
-    // }
+    if (this.visitedTabs.size === 3 && this.selectedImages.length === 3) {
+      this.activeDiv = 4;
+    }
   }
 isSubmitted: boolean = false;
 onSubmit(){
   this.isSubmitted = true;
-  this.activeDiv=4
+  // this.activeDiv=4
+  this.isButtonDivVisible=true
   console.log(this.selectedImages)
   
 }

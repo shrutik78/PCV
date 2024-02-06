@@ -1,13 +1,15 @@
-
-
+@mixin for-tab {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
 
 .container{
   height:100vh;
-  // width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
     //justify-content: center;
   
   .title{
@@ -15,9 +17,11 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      font-size: 1.5rem;
-      padding:1rem;
-    
+      font-size: 0.5rem;
+      padding:2rem;
+      @include for-tab(){
+        padding: 1rem;
+      }
   
   }
 
@@ -30,14 +34,18 @@
     background-color: #fff;
     border-radius: 2rem;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-    width: 57rem;
+    width: 60rem;
+    @include for-tab(){
+      width:45rem;
+      padding: 0.5rem;
+    }
   
     section{
       display: flex;
       flex-direction: row;
       align-items: center;
       gap:1.5rem;
-    
+      padding: 0.5rem;
     }
     .controls{
       display: grid;
@@ -60,11 +68,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
   background-color: #fff;
   border-radius: 2rem;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
   width: 60rem;
+  @include for-tab(){
+    width:45rem;
+    
+  }
+
+
   .tabs {
     display: flex;
     width: 100%;
@@ -90,7 +104,7 @@
   .controller{
   display: flex;
   justify-content: space-evenly;
-    gap: 50rem;
+    // gap: 20rem;
     padding: 1rem;
     button{
       width:1.5rem;
@@ -120,33 +134,37 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap:0.3rem;
-    .imgcontent{
-      // margin-block-start: 0.5rem;
-      // margin-left: 0.5rem;
-   
-      img{
-        width: 185px;
-        height:150px;
-        margin-top: 20px; 
-  
-      
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 16px; 
+      max-height: 300px; 
+      overflow-y: auto;
+      @include for-tab(){
+        grid-template-columns: repeat(3, 1fr); 
       }
-      .check-box{
-        position:absolute;
-        input{
-          margin-left: 5.5rem;
+    
+    }  
+      img{
+        width: 180px;
+        height:150px;
+        margin-top: 20px;   
+        margin-left: 20px;
+        @include for-tab(){
+          width: 150px;
+          height:130px;
         }
       }
-    }
-
-   
+      .imgcontent {
+        position: relative;
+        // border: 1px solid #a81313; 
+      }
   }
   
   .hide {
     display: none;
   }
-  
+ 
 }
-
 
    
