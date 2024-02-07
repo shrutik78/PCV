@@ -1,3 +1,10 @@
+@mixin for-tab {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+
 .container{
   width: 100%;
   height: 100vh;
@@ -9,10 +16,24 @@
     width: 40%;
     height: 3rem;
     font-size: 1rem;
+    @include for-tab(){
+      margin-top:1rem;
+    }
   }
   .content{
     padding:0.5rem;
+    @include for-tab(){
+    
+        max-width: 80%;
+        width: 69%;
+    }
   }
 }
+
 // max-width: 79%;
 // width: 100%
+//sition: relative;
+// width: 69%;
+// height: auto;
+// overflow: hidden;
+//* text-align: center;

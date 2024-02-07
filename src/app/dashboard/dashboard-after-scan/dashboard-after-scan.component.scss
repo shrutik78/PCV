@@ -20,7 +20,7 @@
       font-size: 0.5rem;
       padding:2rem;
       @include for-tab(){
-        padding: 1rem;
+        padding: 0.5rem;
       }
   
   }
@@ -102,8 +102,8 @@
     }
   }
   .controller{
-  display: flex;
-  justify-content: space-evenly;
+  // display: flex;
+  // justify-content: space-evenly;
     // gap: 20rem;
     padding: 1rem;
     button{
@@ -132,6 +132,7 @@
   .show {
     display: flex;
     flex-wrap: wrap;
+    // flex-direction: column;
     justify-content: space-between;
     gap:0.3rem;
     .img-grid {
@@ -141,7 +142,8 @@
       max-height: 300px; 
       overflow-y: auto;
       @include for-tab(){
-        grid-template-columns: repeat(3, 1fr); 
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); 
       }
     
     }  
@@ -151,13 +153,15 @@
         margin-top: 20px;   
         margin-left: 20px;
         @include for-tab(){
-          width: 150px;
+          width: 140px;
           height:130px;
         }
       }
       .imgcontent {
         position: relative;
-        // border: 1px solid #a81313; 
+        // height:176px;
+        // width:176px;
+        // border: 1px solid #202020; 
       }
   }
   

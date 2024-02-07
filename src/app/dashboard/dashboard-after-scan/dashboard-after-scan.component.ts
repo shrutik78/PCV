@@ -25,13 +25,7 @@ ngOnInit(): void {
     this.getlogoImages()
     this.getroofImages()
     this.vinNumber =  this.activeRoute.snapshot.params['vinNumber']
-    // this.wheelData.forEach(wheel => {
-    //   wheel.checked = false;
-    // });  this.logoData.forEach(logo => {
-    //   logo.checked = false;
-    // }); this.roofData.forEach(roof =>{
-    //   roof.checked =false;
-    // })
+   
     console.log(this.wheelData)
     this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
       console.log("response", res)
@@ -64,26 +58,14 @@ ngOnInit(): void {
 
 
   selectedImages:any[]=[]
-handleCheckboxChange(index: number): void {
-  const selectedWheel = this.wheelData[index];
-
-  // Toggle the checked state
-  selectedWheel.checked = !selectedWheel.checked;
-
-  // Add or remove from the selectedImages array based on the checked state
-  if (selectedWheel.checked) {
-    this.selectedImages.push(selectedWheel.image);
-  } else {
-    const indexToRemove = this.selectedImages.indexOf(selectedWheel.image);
-    if (indexToRemove !== -1) {
-      this.selectedImages.splice(indexToRemove, 1);
-    }
-  }
-}
 
 
+  selectedImagesFrontLeft: any[] = [];
+  selectedImagesFrontRight: any[] = [];
+  selectedImagesRearLeft: any[] = [];
+  selectedImagesRearRight: any[] = [];
   
-  // selectedImages: any[] = [];
+  lastSelectedTab: number = 1;
   visitedTabs: Set<number> = new Set();
   
   isSelected(img: any, tab: number): boolean {
@@ -91,10 +73,43 @@ handleCheckboxChange(index: number): void {
   }
   
   getSelectedImages(): any[] {
+
     return this.selectedImages.filter(img => img.selected);
+     
   }
   
-  onImageSelected(selectedImage: any, tab: number) {
+  getAllImages():any[]{
+    let allSelectedImages: any[] = [];
+    allSelectedImages = allSelectedImages.concat(this.selectedImagesFrontLeft);
+    allSelectedImages = allSelectedImages.concat(this.selectedImagesFrontRight);
+    allSelectedImages = allSelectedImages.concat(this.selectedImagesRearLeft);
+    allSelectedImages = allSelectedImages.concat(this.selectedImagesRearRight);
+    return allSelectedImages;
+  
+  }
+  
+  
+  onImageSelected(selectedImage: any, tab: number,button:string) {
+
+    let selectedImagesArray;
+        switch (button) {
+            case 'FrontLeft':
+                selectedImagesArray = this.selectedImagesFrontLeft;
+                break;
+            case 'FrontRight':
+                selectedImagesArray = this.selectedImagesFrontRight;
+                break;
+            case 'RearLeft':
+                selectedImagesArray = this.selectedImagesRearLeft;
+                break;
+            case 'RearRight':
+                selectedImagesArray = this.selectedImagesRearRight;
+                break;
+            default:
+                break;
+        }
+
+    this.lastSelectedTab = tab;
     // Unselect the previously selected images in the same tab
     this.selectedImages = this.selectedImages.filter(img => !(img.tab === tab));
   
@@ -117,47 +132,46 @@ handleCheckboxChange(index: number): void {
     }
   }
 isSubmitted: boolean = false;
+isFrontLeftDisabled: boolean = false;
+isFrontRightDisabled: boolean = false;
+isRearLeftDisabled: boolean = false;
+isRearRightDisabled: boolean = false; 
+isButtonDivVisible = true;
+
 onSubmit(){
   this.isSubmitted = true;
   // this.activeDiv=4
   this.isButtonDivVisible=true
+  this.isFrontLeftDisabled=true; 
   console.log(this.selectedImages)
   
 }
 
-  // selectedImage: any = null;  // Variable to store the selected image
+activeButton: string = '';
 
-  // onCheckboxChange(img: any, dataType: string) {
-  //   switch (dataType) {
-  //     case 'wheelData':
-  //       this.handleCheckboxChange(img, this.wheelData);
-  //       break;
-  //     case 'roofData':
-  //       this.handleCheckboxChange(img, this.roofData);
-  //       break;
-  //     case 'logoData':
-  //       this.handleCheckboxChange(img, this.logoData);
-  //       break;
-  //     // Add more cases if needed for other data types
-  
-  //     default:
-  //       break;
-  //   }
-  // }
-  
-  // private handleCheckboxChange(img: any, data: any[]) {
-  //   // Unselect all other images in the same data array
-  //   data.forEach((item: any) => {
-  //     if (item !== img) {
-  //       item.isSelected = true;
-  //     }
-  //   });
-  
-  //   // Set the selected image
-  //   this.selectedImage = img.isSelected ? img : null;
-  // }
-  
-  
+toggleDivs(button: string) {
+    this.activeButton = button;
+    switch (button) {
+        case 'FrontLeft':
+            this.isButtonDivVisible = !this.isButtonDivVisible;
+            this.isFrontLeftDisabled = true;
+            break;
+        case 'FrontRight':
+            this.isButtonDivVisible = !this.isButtonDivVisible;
+            this.isFrontRightDisabled = true;
+            break;
+        case 'RearRight':
+            this.isButtonDivVisible = !this.isButtonDivVisible;
+            this.isRearRightDisabled = true;
+            break; 
+       case 'RearLeft':
+            this.isButtonDivVisible = !this.isButtonDivVisible;
+            this.isRearLeftDisabled = true;
+            break;           
+        default:
+            break;
+    }
+}  
 
 activeDiv: number = 1;
 switchDiv(divNumber: number) {
@@ -165,21 +179,21 @@ switchDiv(divNumber: number) {
 }
 next(){
   this.activeDiv++
-  if(this.activeDiv>4){
+  if(this.activeDiv>5){
     this.activeDiv=1
   }
 }
 back(){
     this.activeDiv--
     if(this.activeDiv<1){
-      this.activeDiv=4
+      this.activeDiv=5
     }
 }
 
-  isButtonDivVisible = true;
-  toggleDivs() {
-    this.isButtonDivVisible = !this.isButtonDivVisible;
-  }
+ 
+
+
+
 
 
 }
