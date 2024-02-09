@@ -8,53 +8,130 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   templateUrl: './dashboard-after-scan.component.html',
   styleUrls: ['./dashboard-after-scan.component.scss']
 })
-export class DashboardAfterScanComponent implements OnInit {
+export class DashboardAfterScanComponent implements OnInit ,AfterViewInit{
 baseUrl=`http://192.168.29.78:8000/api`
 vinNumber:any
 data:any;
 wheelData:any[]=[];
 roofData:any[]=[];
 logoData:any[]=[];
-  constructor(private activeRoute:ActivatedRoute,private http:HttpClient,private router:Router,private image:ImagesService){
+windowData:any[]=[];
+handleData:any[]=[];
+mirrorData:any[]=[];
+hubcapData:any[]=[];
+doorData:any[]=[]
+wiperData:any[]=[];
+hoodData:any[]=[];
+trunkData:any[]=[];
+lightData:any[]=[];
 
+constructor(private activeRoute:ActivatedRoute,private http:HttpClient,private router:Router,private image:ImagesService){
+
+  }
+  ngAfterViewInit(): void {
+    this.getwheelImages();
+    this.getlogoImages();
+    this.getroofImages();
+    this.getHubCapImages();
+    this.getMirrorImages();
+    this.getdoorHandleImages();
+    this.getdoorImages();
+    this.gethoodImages();
+    this.getlightImages();
+    this.getwiperImages();
+    this.gettrunkImages();
+    this.getwindowImages();
   }
  
 ngOnInit(): void {
 
-    this.getwheelImages()
-    this.getlogoImages()
-    this.getroofImages()
+  
     this.vinNumber =  this.activeRoute.snapshot.params['vinNumber']
    
     console.log(this.wheelData)
-    this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
+    this.http.get(`https://pcv.pythonanywhere.com/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
       console.log("response", res)
       this.data=res.data;
     })
  
 }
 
-
-
-
-
+//Front Right
   getwheelImages(){
-    this.image.getWheelImages().subscribe((data:any)=>{   
+
+    this.image.getFRWheelImages().subscribe((data:any)=>{   
       this.wheelData=data.WheelImages;
     });
   }
 
   getroofImages(){
-    this.image.getRoofImages().subscribe((data:any)=>{
+    this.image.getFRRoofImages().subscribe((data:any)=>{
       this.roofData=data.RoofImages;
     })
   }
 
+  getMirrorImages(){
+    this.image.getFRMirrorImages().subscribe((data:any)=>{
+      this.mirrorData=data.OutSideMirrorImages;
+      console.log(this.mirrorData)
+    })
+  }
+//Front Left
+  getwindowImages(){
+    this.image.getFLWindowImages().subscribe((data:any)=>{
+      this.windowData=data.WindowImages;
+      console.log(this.windowData)
+    })
+  }
+getdoorImages(){
+  this.image.getFLDoorImages().subscribe((data:any)=>{
+    this.doorData=data.DoorImages;
+  })
+}
+getdoorHandleImages(){
+  this.image.getFLHandleImages().subscribe((data:any)=>{
+    this.handleData=data.DoorHandleImages;
+    console.log(this.handleData)
+  })
+}
+getHubCapImages(){
+  this.image.getFLCapImages().subscribe((data:any)=>{
+    this.hubcapData=data.LogoImages;
+    console.log(this.hubcapData)
+  })
+}
+//Rear right
   getlogoImages(){
-    this.image.getLogoImages().subscribe((data:any)=>{
+    this.image.getRRLogoImages().subscribe((data:any)=>{
       this.logoData=data.LogoImages;
     })
   }
+   
+  getwiperImages(){
+    this.image.getRRWiperImages().subscribe((data:any)=>{
+      this.wiperData=data.WiperImages;
+      console.log(this.wiperData)
+    })
+  }
+
+gethoodImages(){
+  this.image.getRRHoodImages().subscribe((data:any)=>{
+    this.hoodData=data.HoodImages;
+    console.log(this.hoodData)
+  })
+}
+//Rear left
+gettrunkImages(){
+  this.image.getRLTrunkImages().subscribe((data:any)=>{
+    this.trunkData=data.TrunkImages;
+  })
+}
+getlightImages(){
+  this.image.getRLLightImages().subscribe((data:any)=>{
+    this.lightData=data.TailLightImages;
+    console.log(this.lightData)
+  })
+}
 
 
   selectedImages:any[]=[]
@@ -78,6 +155,7 @@ ngOnInit(): void {
      
   }
   
+
   getAllImages():any[]{
     let allSelectedImages: any[] = [];
     allSelectedImages = allSelectedImages.concat(this.selectedImagesFrontLeft);
@@ -89,48 +167,53 @@ ngOnInit(): void {
   }
   
   
-  onImageSelected(selectedImage: any, tab: number,button:string) {
 
-    let selectedImagesArray;
-        switch (button) {
-            case 'FrontLeft':
-                selectedImagesArray = this.selectedImagesFrontLeft;
-                break;
-            case 'FrontRight':
-                selectedImagesArray = this.selectedImagesFrontRight;
-                break;
-            case 'RearLeft':
-                selectedImagesArray = this.selectedImagesRearLeft;
-                break;
-            case 'RearRight':
-                selectedImagesArray = this.selectedImagesRearRight;
-                break;
-            default:
-                break;
-        }
 
-    this.lastSelectedTab = tab;
+  onImageSelected(selectedImage: any, tab: number) {
+    let selectedImagesArray: any[];
+    switch (this.activeButton) {
+      case 'FrontLeft':
+        selectedImagesArray = this.selectedImagesFrontLeft;
+        break;
+      case 'FrontRight':
+        selectedImagesArray = this.selectedImagesFrontRight;
+        break;
+      case 'RearLeft':
+        selectedImagesArray = this.selectedImagesRearLeft;
+        break;
+      case 'RearRight':
+        selectedImagesArray = this.selectedImagesRearRight;
+        break;
+      default:
+        selectedImagesArray = [];
+        break;
+    }
+
     // Unselect the previously selected images in the same tab
-    this.selectedImages = this.selectedImages.filter(img => !(img.tab === tab));
-  
+    selectedImagesArray = selectedImagesArray.filter(img => !(img.tab === tab));
+
     // Check if the image is already selected
-    const index = this.selectedImages.findIndex(img => img.image === selectedImage.image && img.tab === tab);
-  
+    const index = selectedImagesArray.findIndex(img => img.image === selectedImage.image && img.tab === tab);
+
     if (index !== -1) {
       // If already selected, remove it
-      this.selectedImages.splice(index, 1);
+      selectedImagesArray.splice(index, 1);
     } else {
       // If not selected, add it
-      this.selectedImages.push({ ...selectedImage, tab, selected: true });
+      selectedImagesArray.push({ ...selectedImage, tab, selected: true });
     }
-  
-    this.visitedTabs.add(tab);
-  
+
     // Check if all tabs have been visited
-    if (this.visitedTabs.size === 3 && this.selectedImages.length === 3) {
-      this.activeDiv = 4;
-    }
+    // if (this.visitedTabs.size === 4 && this.selectedImages.length === 4) {
+    //   this.activeDiv = 5;
+    // }
   }
+
+
+
+
+
+
 isSubmitted: boolean = false;
 isFrontLeftDisabled: boolean = false;
 isFrontRightDisabled: boolean = false;
@@ -138,14 +221,30 @@ isRearLeftDisabled: boolean = false;
 isRearRightDisabled: boolean = false; 
 isButtonDivVisible = true;
 
-onSubmit(){
+onSubmit() {
   this.isSubmitted = true;
-  // this.activeDiv=4
-  this.isButtonDivVisible=true
-  this.isFrontLeftDisabled=true; 
-  console.log(this.selectedImages)
-  
+  switch (this.activeButton) {
+    case 'FrontLeft':
+      this.selectedImages = this.selectedImagesFrontLeft;
+      console.log(this.selectedImages)
+      break;
+    case 'FrontRight':
+      this.selectedImages = this.selectedImagesFrontRight;
+      break;
+    case 'RearLeft':
+      this.selectedImages = this.selectedImagesRearLeft;
+
+      break;
+    case 'RearRight':
+      this.selectedImages = this.selectedImagesRearRight;
+    
+      break;
+    default:
+      this.selectedImages = [];
+      break;
+  }
 }
+
 
 activeButton: string = '';
 
@@ -189,11 +288,6 @@ back(){
       this.activeDiv=5
     }
 }
-
- 
-
-
-
 
 
 }
