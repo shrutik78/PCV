@@ -135,16 +135,16 @@
     }
   }
   .controller{
-    //display: flex;
+    display: flex;
   // justify-content: space-evenly;
-    // gap: 20rem;
+    gap: 2rem;
     padding: 1rem;
     @include for-tab(){
       display: flex;
       gap:2rem;
     }
     button{
-      width:1.5rem;
+      width:3.5rem;
 
       @include for-tab(){
         
