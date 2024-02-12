@@ -31,46 +31,59 @@
         <button mat-raised-button color="primary" [disabled]="isFrontRightDisabled" (click)="toggleDivs('FrontRight')">Front Right</button>
         <button mat-raised-button color="primary" [disabled]="isRearLeftDisabled" (click)="toggleDivs('RearLeft')">Rear Left</button>
         <button mat-raised-button color="primary" [disabled]="isRearRightDisabled" (click)="toggleDivs('RearRight')">Rear Right</button>
-    </div>
+      
+        <button mat-raised-button color="primary" *ngIf="isAllButtonsDisabled()" (click)="submitAll()" (click)="toggleDivs('Submit')">Submit All</button>
+
+      </div>
   </div>
 
 <div class="sub-content">
   <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontLeft'">
     <!-- Tab content for Front Left -->
-    <div  class="tabContent" (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Window</div>
-    <div  class="tabContent" (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Door</div>
-    <div class="tabContent" (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">DoorHandle</div>
-    <div  class="tabContent" (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''">HubCap</div>
-    <div  class="tabContent"(click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''">Images</div>
+    <div  class="tabContent" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Window</div>
+    <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Door</div>
+    <div class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">DoorHandle</div>
+    <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''">HubCap</div>
+    <div   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></div>
 </div>
 <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontRight'">
     <!-- Tab content for Front Right -->
-    <div  class="tabContent" (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Wheel</div>
-    <div class="tabContent" (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Roof</div>
-    <div  class="tabContent" (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">Mirror</div>
-    <div   class="tabContent" (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''">Images</div>
+    <div  class="tabContent" *ngIf="activeDiv !== 4 "(click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Wheel</div>
+    <div class="tabContent"  *ngIf="activeDiv !== 4 " (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Roof</div>
+    <div class="tabContent" *ngIf="activeDiv !== 4 "  (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">Mirror</div>
+    <div (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''"></div>
 </div>
 
 <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'RearLeft'">
   <!-- Tab content for Rear Left -->
-  <div  class="tabContent" (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Trunk</div>
-  <div  class="tabContent" (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">TailLight</div>
-  <div   class="tabContent" (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">Images</div>
+  <div  class="tabContent"  *ngIf="activeDiv !== 3 "  (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Trunk</div>
+  <div  class="tabContent"   *ngIf="activeDiv !== 3 " (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">TailLight</div>
+  <div   (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''"></div>
 </div>
 
 <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'RearRight'">
   <!-- Tab content for Rear Right -->
-  <div  class="tabContent" (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Logo</div>
-  <div  class="tabContent" (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Wiper</div>
-  <div  class="tabContent" (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">Hood</div>
-  <div   class="tabContent" (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''">Images</div>
+  <div  class="tabContent"  *ngIf="activeDiv !== 4 "  (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Logo</div>
+  <div  class="tabContent"  *ngIf="activeDiv !== 4 "  (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Wiper</div>
+  <div  class="tabContent"  *ngIf="activeDiv !== 4 "  (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">Hood</div>
+  <div  (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''"></div>
 </div>
 
-
+<div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'Submit'" >
+  <div class="img-grid">
+  <div *ngFor="let img of selectedImagesAll" class="imgcontent">
+    <img [src]="baseUrl + img.image" alt="">
+  </div>
+  </div>
+</div>
 
 
   <div class="controller" *ngIf="!isButtonDivVisible">
     <button mat-raised-button color="primary" (click)="back()">Back</button>
+    <button mat-raised-button color="primary" (click)="validationCheck()" *ngIf="activeButton === 'Submit'">Ok</button>
+    <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'">Not Ok</button>
+    <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'">Submit</button>
+
     <!-- <button mat-raised-button color="primary" (click)="next()">Next</button> -->
   </div> 
 
@@ -117,7 +130,7 @@
 
 
 
-  <div [ngClass]="{'show': activeDiv === 5 && isSubmitted, 'hide': activeDiv !== 5 || !isSubmitted}">
+  <div [ngClass]="{'show': activeDiv === 5 && isSubmitted, 'hide': activeDiv !== 5 }" *ngIf=" activeButton ==='FrontLeft'" >
     <div class="tabContent">
       <p>Selected Images - Front Left</p>
       <div class="img-grid">
@@ -163,7 +176,7 @@
 
 
   <!-- Content 4 -->
-  <div [ngClass]="{'show': activeDiv === 4 && isSubmitted, 'hide': activeDiv !== 4 || !isSubmitted}">
+  <div [ngClass]="{'show': activeDiv === 4 && isSubmitted, 'hide': activeDiv !== 4 || !isSubmitted}" *ngIf="activeButton ==='FrontRight'">
     <div class="tabContent">
       <p>Selected Images - Front Right</p>
       <div class="img-grid">
@@ -194,7 +207,8 @@
   </div>
   </div>
 </div>
-<div [ngClass]="{'show': activeDiv === 3 && isSubmitted, 'hide': activeDiv !== 3 || !isSubmitted}">
+
+<div [ngClass]="{'show': activeDiv === 3 && isSubmitted, 'hide': activeDiv !== 3 || !isSubmitted}"  *ngIf="activeButton ==='RearLeft'">
   <div class="tabContent">
     <p>Selected Images - Rear Left</p>
     <div class="img-grid">
@@ -235,7 +249,7 @@
   </div>
 </div>
 
-<div [ngClass]="{'show': activeDiv === 4 && isSubmitted, 'hide': activeDiv !== 4 || !isSubmitted}">
+<div [ngClass]="{'show': activeDiv === 4 && isSubmitted, 'hide': activeDiv !== 4 || !isSubmitted}" *ngIf="activeButton === 'RearRight'">
   <div class="tabContent">
     <p>Selected Images - Rear Right</p>
     <div class="img-grid">
@@ -247,18 +261,28 @@
 </div>
 
 
+
+
   <div class="action" >
     <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 4 && activeButton === 'FrontLeft'"  >Submit </button>
+    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 5 && activeButton === 'FrontLeft'"  >Done </button>
+    
   </div>
   <div class="action" >
     <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 && activeButton === 'FrontRight'" >Submit </button>
+    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 4 && activeButton === 'FrontRight'" >Done </button>
+  
   </div>
   <div class="action" >
     <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 &&  activeButton === 'RearRight'" >Submit </button>
+    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 4 &&  activeButton === 'RearRight'" >Done </button>
+  
   </div>
 
   <div class="action" >
     <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 2 && activeButton === 'RearLeft'" >Submit </button>
+    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 3 && activeButton === 'RearLeft'" >Done </button>
+  
   </div>
 </div>
 

@@ -58,6 +58,11 @@
         padding: 1rem;
         font-size: 1.5rem;
         width:20rem;
+        @include for-tab(){
+          padding: 1rem;
+          font-size: 1.5rem;
+          width:20rem;
+        }
       }
     }
   
@@ -100,14 +105,52 @@
       background-color: #5ba4b1;
       color: #c0bebf;
     }
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 16px; 
+      max-height: 300px; 
+      overflow-y: auto;
+      @include for-tab(){
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); 
+      }
+
+      img{
+        width: 180px;
+        height:150px;
+        margin-top: 20px;   
+        margin-left: 20px;
+        @include for-tab(){
+          width: 140px;
+          height:130px;
+        }
+      }
+      .imgcontent {
+        position: relative;
+        // height:176px;
+        // width:176px;
+        // border: 1px solid #202020; 
+      }
+    }
   }
   .controller{
-  // display: flex;
+    //display: flex;
   // justify-content: space-evenly;
     // gap: 20rem;
     padding: 1rem;
+    @include for-tab(){
+      display: flex;
+      gap:2rem;
+    }
     button{
       width:1.5rem;
+
+      @include for-tab(){
+        
+        width:5.5rem;
+
+      }
     }
   }
   .tabContentdiv {
