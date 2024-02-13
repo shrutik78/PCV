@@ -23,6 +23,14 @@
           <mat-label>Vehicle Brand</mat-label>
           <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.vehicle_brand}}">
       </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Vehicle Brand</mat-label>
+        <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.vehicle_brand}}">
+    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Vehicle Brand</mat-label>
+          <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.vehicle_brand}}">
+      </mat-form-field>
     </section> 
 
 
@@ -40,10 +48,10 @@
 <div class="sub-content">
   <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontLeft'">
     <!-- Tab content for Front Left -->
-    <div  class="tabContent" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Window</div>
+    <div  class="tabContent" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''" >Window</div>
     <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Door</div>
-    <div class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''">DoorHandle</div>
-    <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''">HubCap</div>
+    <div class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''" >DoorHandle</div>
+    <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''" >HubCap</div>
     <div   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></div>
 </div>
 <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontRight'">

@@ -69,7 +69,6 @@ constructor(private route:Router){
     }
   }
 
-
 // getValue(value:any){
 //   this.show=false;
 //   console.log("Scanned barcode:", value);

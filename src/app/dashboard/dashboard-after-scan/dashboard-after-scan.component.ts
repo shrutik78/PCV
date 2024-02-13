@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
   templateUrl: './dashboard-after-scan.component.html',
   styleUrls: ['./dashboard-after-scan.component.scss']
 })
-export class DashboardAfterScanComponent implements OnInit ,AfterViewInit{
+export class DashboardAfterScanComponent implements OnInit {
 baseUrl=`https://pcv.pythonanywhere.com/api`
 vinNumber:any
 data:any;
@@ -30,20 +30,7 @@ constructor(private activeRoute:ActivatedRoute,private http:HttpClient,
   private router:Router,private image:ImagesService,){
 
   }
-  ngAfterViewInit(): void {
-    this.getwheelImages();
-    this.getlogoImages();
-    this.getroofImages();
-    this.getHubCapImages();
-    this.getMirrorImages();
-    this.getdoorHandleImages();
-    this.getdoorImages();
-    this.gethoodImages();
-    this.getlightImages();
-    this.getwiperImages();
-    this.gettrunkImages();
-    this.getwindowImages();
-  }
+
  
 ngOnInit(): void {
 
@@ -55,7 +42,25 @@ ngOnInit(): void {
       console.log("response", res)
       this.data=res.data;
     })
- 
+this.loadImages();
+}
+
+loadImages(){
+  this.getwindowImages();
+  this.getdoorImages();
+  this.getdoorHandleImages();
+  this.getHubCapImages();
+
+  this.getwheelImages();
+  this.getroofImages();
+  this.getMirrorImages();
+
+  this.gettrunkImages();
+  this.getlightImages();
+
+  this.getlogoImages();
+  this.getwiperImages();
+  this.gethoodImages();
 }
 
 //Front Right
@@ -189,18 +194,16 @@ isSelected(img: any, tab: number): boolean {
     switch (this.activeButton) {
       case 'FrontLeft':
         selectedImagesArray = this.selectedImagesFrontLeft;
-
         break;
       case 'FrontRight':
         selectedImagesArray = this.selectedImagesFrontRight;
-      
         break;
       case 'RearLeft':
         selectedImagesArray = this.selectedImagesRearLeft;
-       
+      
         break;
       case 'RearRight':
-        selectedImagesArray = this.selectedImagesRearRight;
+        selectedImagesArray = this.selectedImagesRearRight
       
         break;
       default:
@@ -228,16 +231,13 @@ isSelected(img: any, tab: number): boolean {
         console.log(this.selectedImagesFrontLeft)
         break;
       case 'FrontRight':
-        this.selectedImagesFrontRight = selectedImagesArray;
-        console.log(this.selectedImagesFrontRight)
+      this.selectedImagesFrontRight=selectedImagesArray
         break;
       case 'RearLeft':
-        this.selectedImagesRearLeft = selectedImagesArray;
-        console.log(this.selectedImagesRearLeft)
+      this.selectedImagesRearLeft=selectedImagesArray
         break;
       case 'RearRight':
-        this.selectedImagesRearRight = selectedImagesArray;
-        console.log(this.selectedImagesRearRight)
+       this.selectedImagesRearRight=selectedImagesArray
         break;
       default:
         break;
@@ -248,8 +248,6 @@ isSelected(img: any, tab: number): boolean {
   }
 
 
-  
-  
 
 
 isSubmitted: boolean = false;
@@ -259,73 +257,40 @@ isRearLeftDisabled: boolean = false;
 isRearRightDisabled: boolean = false; 
 isButtonDivVisible = true;
  selectedImagesArray:any[]=[];
-onSubmit() {
+
+
+ onSubmit() {
   this.isSubmitted = true;
- 
+  // Determine the appropriate value of activeDiv based on activeButton
   switch (this.activeButton) {
     case 'FrontLeft':
       this.activeDiv = 5; 
-
+      this.selectedImagesArray=this.selectedImagesFrontLeft ;
+        console.log(this.selectedImagesFrontLeft)
       break;
     case 'FrontRight':
       this.activeDiv = 4;
+      this.selectedImagesArray=this.selectedImagesFrontRight;
+      console.log(this.selectedImagesFrontRight)
       break;
     case 'RearLeft':
       this.activeDiv = 3; 
+        this.selectedImagesArray=this.selectedImagesRearLeft;
+      console.log(this.selectedImagesRearLeft)
       break;
     case 'RearRight':
       this.activeDiv = 4; 
+       this.selectedImagesArray=this.selectedImagesRearRight;
+      console.log(this.selectedImagesRearRight)
       break;
     default:
-      
       break;
   }
+
+
 }
 
 
-// onSubmit() {
-//   this.isSubmitted = true;
-  
-//   // Check if all images from the active button are selected
-//   let allImagesSelected = false;
-//   switch (this.activeButton) {
-//     case 'FrontLeft':
-//       allImagesSelected = this.selectedImagesFrontLeft.length > 0 && this.selectedImagesFrontLeft.every(img => img.selected);
-//       if (allImagesSelected) {
-//         this.activeDiv = 5;
-//         this.isFrontLeftDisabled = true;
-//       }
-//       break;
-//     case 'FrontRight':
-//       allImagesSelected = this.selectedImagesFrontRight.length > 0 && this.selectedImagesFrontRight.every(img => img.selected);
-//       if (allImagesSelected) {
-//         this.activeDiv = 4;
-//         this.isFrontRightDisabled = true;
-//       }
-//       break;
-//     case 'RearLeft':
-//       allImagesSelected = this.selectedImagesRearLeft.length > 0 && this.selectedImagesRearLeft.every(img => img.selected);
-//       if (allImagesSelected) {
-//         this.activeDiv = 3;
-//         this.isRearLeftDisabled = true;
-//       }
-//       break;
-//     case 'RearRight':
-//       allImagesSelected = this.selectedImagesRearRight.length > 0 && this.selectedImagesRearRight.every(img => img.selected);
-//       if (allImagesSelected) {
-//         this.activeDiv = 4;
-//         this.isRearRightDisabled = true;
-//       }
-//       break;
-//     default:
-//       break;
-//   }
-
-//   // Check if all four buttons are disabled to display the "Submit All" button
-//   if (this.isFrontLeftDisabled && this.isFrontRightDisabled && this.isRearLeftDisabled && this.isRearRightDisabled) {
-//     this.isButtonDivVisible = false;
-//   }
-// }
 
 isAllButtonsDisabled(): boolean {
   return this.isFrontLeftDisabled && this.isFrontRightDisabled && this.isRearLeftDisabled && this.isRearRightDisabled;
@@ -346,19 +311,28 @@ onClick(){
         case 'FrontLeft':
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isFrontLeftDisabled = true;
+        
             break;
         case 'FrontRight':
+    
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isFrontRightDisabled = true;
+          
             break;
+            case 'RearLeft':
+      
+                this.isButtonDivVisible = !this.isButtonDivVisible;
+                this.isRearLeftDisabled = true;
+              
+                break;
+                         
         case 'RearRight':
+   
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isRearRightDisabled = true;
+          
             break; 
-       case 'RearLeft':
-            this.isButtonDivVisible = !this.isButtonDivVisible;
-            this.isRearLeftDisabled = true;
-            break;  
+  
                  
         default:
             break;
@@ -387,21 +361,27 @@ toggleDivs(button: string) {
     this.activeButton = button;
     switch (button) {
         case 'FrontLeft':
+  
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isFrontLeftDisabled = true;
+  
             break;
         case 'FrontRight':
+  
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isFrontRightDisabled = true;
+    
             break;
+            case 'RearLeft':
+              this.isButtonDivVisible = !this.isButtonDivVisible;
+              this.isRearLeftDisabled = true;
+            
+              break;      
         case 'RearRight':
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isRearRightDisabled = true;
+       
             break; 
-       case 'RearLeft':
-            this.isButtonDivVisible = !this.isButtonDivVisible;
-            this.isRearLeftDisabled = true;
-            break;  
             case 'Submit':
               this.isButtonDivVisible = !this.isButtonDivVisible;
          
@@ -413,8 +393,36 @@ toggleDivs(button: string) {
 
 activeDiv: number = 1;
 switchDiv(divNumber: number) {
+  // Check if there are selected images for the current tab
+  let selectedImagesArray;
+  switch (this.activeButton) {
+    case 'FrontLeft':
+      selectedImagesArray = this.selectedImagesFrontLeft;
+      break;
+    case 'FrontRight':
+      selectedImagesArray = this.selectedImagesFrontRight;
+      break;
+    case 'RearLeft':
+      selectedImagesArray = this.selectedImagesRearLeft;
+      break;
+    case 'RearRight':
+      selectedImagesArray = this.selectedImagesRearRight;
+      break;
+    default:
+      selectedImagesArray = [];
+      break;
+  }
+
+  const imagesSelected = selectedImagesArray.some(img => img.tab === this.activeDiv);
+  if (!imagesSelected) {
+    // Display a message if no image is selected
+    alert("Please select an image before switching tabs.");
+    return; 
+  }
+  // Update the active tab
   this.activeDiv = divNumber;
 }
+
 next(){
   this.activeDiv++
   if(this.activeDiv>5){

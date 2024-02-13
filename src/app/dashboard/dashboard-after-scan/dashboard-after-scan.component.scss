@@ -36,7 +36,7 @@
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
     width: 60rem;
     @include for-tab(){
-      width:45rem;
+      width:44rem;
       padding: 0.5rem;
     }
   
@@ -79,11 +79,17 @@
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
   width: 60rem;
   @include for-tab(){
-    width:45rem;
+    width:44rem;
     
   }
 
-
+  .back{
+    display: flex;
+    padding:0.5rem;
+    button{
+      width:4rem;
+    }
+  }
   .tabs {
     display: flex;
     width: 100%;
@@ -100,6 +106,10 @@
       font-weight: 700;
       padding: 10px;
       cursor: pointer;
+    }
+    .tabContent.disabled {
+      pointer-events: none; /* Disable pointer events */
+      opacity: 0.5; /* Reduce opacity to visually indicate disabled state */
     }
     .activeTab{
       background-color: #5ba4b1;
