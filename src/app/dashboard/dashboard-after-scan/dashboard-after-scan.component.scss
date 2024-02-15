@@ -32,7 +32,7 @@
     align-items: center;
     padding: 1.5rem;
     background-color: #fff;
-    border-radius: 2rem;
+    border-radius: 1rem;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
     width: 60rem;
     @include for-tab(){
@@ -75,7 +75,7 @@
   align-items: center;
   margin-top: 1rem;
   background-color: #fff;
-  border-radius: 2rem;
+  border-radius: 1rem;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
   width: 60rem;
   @include for-tab(){
@@ -125,17 +125,22 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr); 
       }
-
-      img{
-        width: 180px;
-        height:150px;
-        margin-top: 20px;   
-        margin-left: 20px;
-        @include for-tab(){
-          width: 140px;
-          height:130px;
-        }
+    
+ 
+        img{
+          width: 180px;
+          height:150px;
+          margin-top: 20px;   
+          margin-left: 20px;
+          @include for-tab(){
+            width: 140px;
+            height:130px;
+            margin:6px 0px 0px 6px;
+           
+           
+          }
       }
+ 
       .imgcontent {
         position: relative;
         // height:176px;

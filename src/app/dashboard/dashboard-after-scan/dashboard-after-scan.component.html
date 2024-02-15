@@ -86,6 +86,8 @@
 </div>
 
 
+
+
   <div class="controller" *ngIf="!isButtonDivVisible">
     <button mat-raised-button color="primary" (click)="back()">Back</button>
     <button mat-raised-button color="primary" (click)="validationCheck()" *ngIf="activeButton === 'Submit'">Ok</button>
@@ -99,12 +101,13 @@
 <!-- Tab 1 -->
 <div [ngClass]="{'show': activeDiv === 1, 'hide': activeDiv !== 1}" *ngIf="activeButton === 'FrontLeft'">
   <div class="img-grid">
-    <div *ngFor="let img of windowData; let i=index" (click)="onImageSelected(img, 1)" class="imgcontent">
-      <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:5.5rem;">
+    <div *ngFor="let img of windowData; let i=index" (click)="onImageSelected(img, 1)" class="imgcontent" >    
+        <img src="{{ baseUrl + img.image }}" alt="">
+        <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:5.5rem;">
     </div>
   </div>
 </div>
+
 
 <!-- Tab 2 -->
 <div [ngClass]="{'show': activeDiv === 2, 'hide': activeDiv !== 2}" *ngIf="activeButton === 'FrontLeft'">
@@ -272,24 +275,24 @@
 
 
   <div class="action" >
-    <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 4 && activeButton === 'FrontLeft'"  >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 5 && activeButton === 'FrontLeft'"  >Done </button>
+    <button mat-raised-button color="primary" (click)="onSubmit()"   *ngIf="activeDiv== 4 && activeButton === 'FrontLeft'"  >Submit </button>
+    <button mat-raised-button color="primary" (click)="onClick('FrontLeft')" *ngIf="activeDiv== 5 && activeButton === 'FrontLeft'"  >Done </button>
     
   </div>
   <div class="action" >
     <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 && activeButton === 'FrontRight'" >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 4 && activeButton === 'FrontRight'" >Done </button>
+    <button mat-raised-button color="primary" (click)="onClick('FrontRight')" *ngIf="activeDiv== 4 && activeButton === 'FrontRight'" >Done </button>
   
   </div>
   <div class="action" >
     <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 &&  activeButton === 'RearRight'" >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 4 &&  activeButton === 'RearRight'" >Done </button>
+    <button mat-raised-button color="primary" (click)="onClick('RearRight')" *ngIf="activeDiv== 4 &&  activeButton === 'RearRight'" >Done </button>
   
   </div>
 
   <div class="action" >
     <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 2 && activeButton === 'RearLeft'" >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick()" *ngIf="activeDiv== 3 && activeButton === 'RearLeft'" >Done </button>
+    <button mat-raised-button color="primary" (click)="onClick('RearLeft')" *ngIf="activeDiv== 3 && activeButton === 'RearLeft'" >Done </button>
   
   </div>
 </div>

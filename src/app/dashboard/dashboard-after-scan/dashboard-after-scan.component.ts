@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
   templateUrl: './dashboard-after-scan.component.html',
   styleUrls: ['./dashboard-after-scan.component.scss']
 })
-export class DashboardAfterScanComponent implements OnInit {
+export class DashboardAfterScanComponent implements OnInit ,AfterViewInit{
 baseUrl=`https://pcv.pythonanywhere.com/api`
 vinNumber:any
 data:any;
@@ -30,6 +30,9 @@ constructor(private activeRoute:ActivatedRoute,private http:HttpClient,
   private router:Router,private image:ImagesService,){
 
   }
+  ngAfterViewInit(): void {
+    
+  }
 
  
 ngOnInit(): void {
@@ -42,38 +45,63 @@ ngOnInit(): void {
       console.log("response", res)
       this.data=res.data;
     })
-this.loadImages();
+    this.loadImages();
 }
 
 loadImages(){
-  this.getwindowImages();
-  this.getdoorImages();
-  this.getdoorHandleImages();
   this.getHubCapImages();
-
-  this.getwheelImages();
-  this.getroofImages();
   this.getMirrorImages();
-
-  this.gettrunkImages();
-  this.getlightImages();
-
-  this.getlogoImages();
-  this.getwiperImages();
+  this.getdoorHandleImages();
+  this.getdoorImages();
   this.gethoodImages();
+  this.getlightImages();
+  this.getlogoImages();
+  this.getroofImages();
+  this.gettrunkImages();
+  this.getwheelImages();
+  this.getwindowImages();
+  this.getwiperImages();
 }
 
+
+//Front Left
+getwindowImages(){
+  this.image.getFLWindowImages().subscribe((data:any)=>{
+    this.windowData=data.WindowImages;
+    console.log(this.windowData)
+  })
+}
+getdoorImages(){
+this.image.getFLDoorImages().subscribe((data:any)=>{
+  this.doorData=data.DoorImages;
+  console.log(this.doorData)
+})
+}
+getdoorHandleImages(){
+this.image.getFLHandleImages().subscribe((data:any)=>{
+  this.handleData=data.DoorHandleImages;
+  console.log(this.handleData)
+})
+}
+getHubCapImages(){
+this.image.getFLCapImages().subscribe((data:any)=>{
+  this.hubcapData=data.LogoImages;
+  console.log(this.hubcapData)
+})
+}
 //Front Right
   getwheelImages(){
 
     this.image.getFRWheelImages().subscribe((data:any)=>{   
       this.wheelData=data.WheelImages;
+      console.log(this.wheelData)
     });
   }
 
   getroofImages(){
     this.image.getFRRoofImages().subscribe((data:any)=>{
       this.roofData=data.RoofImages;
+      console.log(this.roofData)
     })
   }
 
@@ -83,34 +111,12 @@ loadImages(){
       console.log(this.mirrorData)
     })
   }
-//Front Left
-  getwindowImages(){
-    this.image.getFLWindowImages().subscribe((data:any)=>{
-      this.windowData=data.WindowImages;
-      console.log(this.windowData)
-    })
-  }
-getdoorImages(){
-  this.image.getFLDoorImages().subscribe((data:any)=>{
-    this.doorData=data.DoorImages;
-  })
-}
-getdoorHandleImages(){
-  this.image.getFLHandleImages().subscribe((data:any)=>{
-    this.handleData=data.DoorHandleImages;
-    console.log(this.handleData)
-  })
-}
-getHubCapImages(){
-  this.image.getFLCapImages().subscribe((data:any)=>{
-    this.hubcapData=data.LogoImages;
-    console.log(this.hubcapData)
-  })
-}
+
 //Rear right
   getlogoImages(){
     this.image.getRRLogoImages().subscribe((data:any)=>{
       this.logoData=data.LogoImages;
+      console.log(this.logoData)
     })
   }
    
@@ -131,6 +137,7 @@ gethoodImages(){
 gettrunkImages(){
   this.image.getRLTrunkImages().subscribe((data:any)=>{
     this.trunkData=data.TrunkImages;
+    console.log(this.trunkData)
   })
 }
 getlightImages(){
@@ -140,10 +147,8 @@ getlightImages(){
   })
 }
 
-
+  selectedImagesAll:any[]=[]
   selectedImages:any[]=[]
-
-
   selectedImagesFrontLeft: any[] = [];
   selectedImagesFrontRight: any[] = [];
   selectedImagesRearLeft: any[] = [];
@@ -178,14 +183,7 @@ isSelected(img: any, tab: number): boolean {
   return selectedImagesArray.some(selectedImg => selectedImg.image === img.image && selectedImg.tab === tab);
 }
 
-  
-  
-  // getSelectedImages(): any[] {
-  //   return this.selectedImages.filter(img => img.selected);     
-  // }
-  
-  
-  selectedImagesAll:any[]=[]
+
 
   onImageSelected(selectedImage: any, tab: number) {
     let selectedImagesArray;
@@ -247,9 +245,6 @@ isSelected(img: any, tab: number): boolean {
 
   }
 
-
-
-
 isSubmitted: boolean = false;
 isFrontLeftDisabled: boolean = false;
 isFrontRightDisabled: boolean = false;
@@ -258,7 +253,7 @@ isRearRightDisabled: boolean = false;
 isButtonDivVisible = true;
  selectedImagesArray:any[]=[];
 
-
+ showSelectedImages: boolean = false;
  onSubmit() {
   this.isSubmitted = true;
   // Determine the appropriate value of activeDiv based on activeButton
@@ -306,31 +301,30 @@ submitAll() {
 }
 
 
-onClick(){
-    switch (this.activeButton) {
+onClick(button:string){
+this.activeButton=button;
+this.activeDiv=1;
+    switch (button) {
         case 'FrontLeft':
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isFrontLeftDisabled = true;
-        
-            break;
+             break;
         case 'FrontRight':
-    
-            this.isButtonDivVisible = !this.isButtonDivVisible;
-            this.isFrontRightDisabled = true;
-          
+           this.isButtonDivVisible = !this.isButtonDivVisible;
+            this.isFrontRightDisabled = true;             
             break;
-            case 'RearLeft':
-      
-                this.isButtonDivVisible = !this.isButtonDivVisible;
+        case 'RearLeft':  
+          
+            this.isButtonDivVisible = !this.isButtonDivVisible;
                 this.isRearLeftDisabled = true;
-              
+             
                 break;
                          
         case 'RearRight':
-   
+ 
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isRearRightDisabled = true;
-          
+         
             break; 
   
                  
@@ -359,33 +353,32 @@ activeButton: string = '';
 
 toggleDivs(button: string) {
     this.activeButton = button;
-    switch (button) {
-        case 'FrontLeft':
   
+    switch (button) {
+        case 'FrontLeft':  
             this.isButtonDivVisible = !this.isButtonDivVisible;
-            this.isFrontLeftDisabled = true;
+            this.isFrontLeftDisabled = true;  
   
             break;
-        case 'FrontRight':
-  
+        case 'FrontRight':  
             this.isButtonDivVisible = !this.isButtonDivVisible;
-            this.isFrontRightDisabled = true;
-    
+            this.isFrontRightDisabled = true; 
+              
             break;
             case 'RearLeft':
               this.isButtonDivVisible = !this.isButtonDivVisible;
               this.isRearLeftDisabled = true;
-            
+          
               break;      
         case 'RearRight':
             this.isButtonDivVisible = !this.isButtonDivVisible;
             this.isRearRightDisabled = true;
-       
+          
             break; 
-            case 'Submit':
+        case 'Submit':
               this.isButtonDivVisible = !this.isButtonDivVisible;
-         
-              break;         
+              break;
+            
         default:
             break;
     }
@@ -425,9 +418,9 @@ switchDiv(divNumber: number) {
 
 next(){
   this.activeDiv++
-  if(this.activeDiv>5){
-    this.activeDiv=1
-  }
+  // if(this.activeDiv>5){
+  //   this.activeDiv=1
+  // }
 }
 back(){
     this.activeDiv--
