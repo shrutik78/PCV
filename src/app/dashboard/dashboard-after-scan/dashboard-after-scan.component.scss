@@ -124,6 +124,7 @@
       @include for-tab(){
         display: grid;
         grid-template-columns: repeat(4, 1fr); 
+        column-gap: 3px;
       }
     
  
@@ -135,7 +136,7 @@
           @include for-tab(){
             width: 140px;
             height:130px;
-            margin:6px 0px 0px 6px;
+            border: 1px solid black;
            
            
           }
@@ -202,6 +203,7 @@
       @include for-tab(){
         display: grid;
         grid-template-columns: repeat(4, 1fr); 
+        column-gap: 3px;
       }
     
     }  
@@ -213,6 +215,7 @@
         @include for-tab(){
           width: 140px;
           height:130px;
+          border: 1px solid black;
         }
       }
       .imgcontent {
