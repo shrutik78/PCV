@@ -230,9 +230,9 @@ mat-tab-group {
     
   }
     .tabContent {
-      background-color: #c0bebf;
-      border-radius: 50%;
-      color: rgb(78, 78, 78);
+      // background-color: #c0bebf;
+      // border-radius: 50%;
+      color:#007bff; ;
       // margin: 10px;
       font-size: 1.3rem;
       font-weight: 700;
@@ -245,8 +245,7 @@ mat-tab-group {
     }
 
     .activeTab{
-      background-color: #5ba4b1;
-      color: #c0bebf;
+      color:#0056b3;;
     }
     .img-grid {
       display: grid;
