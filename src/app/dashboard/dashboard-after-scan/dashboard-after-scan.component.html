@@ -3,22 +3,47 @@
     <h1><b>{{vinNumber}}</b></h1>
   </div>
   <div class="content" *ngIf="data">
+
     <section>
-      <mat-form-field appearance="fill">
-        <mat-label>Country Manf</mat-label>
-        <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.country_manuf}}">
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Vehicle Type</mat-label>
-        <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.vehicle_type}}">
-      </mat-form-field>
+      <mat-card class="custom-card">
+        <mat-card-content>
+          <p>Country Manf: {{data.country_manuf}}</p>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="custom-card">
+        <mat-card-content>
+          <p>Vehicle Type: {{data.vehicle_type}}</p>
+        </mat-card-content>
+      </mat-card>
     
-      <mat-form-field appearance="fill">
-          <mat-label>Vehicle Model</mat-label>
-          <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.vehicle_model}}">
-      </mat-form-field>
+      <mat-card class="custom-card">
+        <mat-card-content>
+          <p>Vehicle Model: {{data.vehicle_model}}</p>
+        </mat-card-content>
+      </mat-card>
     </section>
-    <section>
+
+      <section>
+        <mat-card class="custom-card">
+          <mat-card-content>
+            <p>Vehicle Brand: {{data.vehicle_brand}}</p>
+          </mat-card-content>
+        </mat-card>
+      <mat-card class="custom-card">
+        <mat-card-content>
+          <p>Vehicle Brand: {{data.vehicle_brand}}</p>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="custom-card">
+        <mat-card-content>
+          <p>Vehicle Brand: {{data.vehicle_brand}}</p>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <!-- <section>
       <mat-form-field appearance="fill">
           <mat-label>Vehicle Brand</mat-label>
           <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.vehicle_brand}}">
@@ -31,7 +56,7 @@
           <mat-label>Vehicle Brand</mat-label>
           <input type="text" matInput autocomplete="off" [readonly]="true" value="{{data.vehicle_brand}}">
       </mat-form-field>
-    </section> 
+    </section>  -->
 
 
     <div class="controls" *ngIf="isButtonDivVisible" >
@@ -39,8 +64,10 @@
         <button mat-raised-button color="primary" [disabled]="isFrontRightDisabled" (click)="toggleDivs('FrontRight')">Front Right</button>
         <button mat-raised-button color="primary" [disabled]="isRearLeftDisabled" (click)="toggleDivs('RearLeft')">Rear Left</button>
         <button mat-raised-button color="primary" [disabled]="isRearRightDisabled" (click)="toggleDivs('RearRight')">Rear Right</button>
-      
+      <div class="btn">
         <button mat-raised-button color="primary" *ngIf="isAllButtonsDisabled()" (click)="submitAll()" (click)="toggleDivs('Submit')">Submit All</button>
+
+      </div>
 
       </div>
   </div>
@@ -53,7 +80,16 @@
     <div class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''" >DoorHandle</div>
     <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''" >HubCap</div>
     <div   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></div>
-</div>
+
+
+<!-- <mat-tab-group>
+      <mat-tab label="Window" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''"></mat-tab>
+      <mat-tab label="Door" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==2?'activeTab':''"></mat-tab>
+      <mat-tab label="DoorHandle" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==3?'activeTab':''"></mat-tab>
+      <mat-tab label="HubCap" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==4?'activeTab':''"></mat-tab>
+      <mat-tab   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></mat-tab>
+    </mat-tab-group> -->
+  </div>
 <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontRight'">
     <!-- Tab content for Front Right -->
     <div  class="tabContent" *ngIf="activeDiv !== 4 "(click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''">Wheel</div>
@@ -77,7 +113,8 @@
   <div  (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''"></div>
 </div>
 
-<div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'Submit'" >
+<div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'Submit'" style="display:flex;flex-direction: column;">
+  <h2 style="text-align: center;">All Selected Images</h2>
   <div class="img-grid">
   <div *ngFor="let img of selectedImagesAll" class="imgcontent">
     <img [src]="baseUrl + img.image" alt="">
@@ -89,12 +126,12 @@
 
 
   <div class="controller" *ngIf="!isButtonDivVisible">
-    <button mat-raised-button color="primary" (click)="back()">Back</button>
-    <button mat-raised-button color="primary" (click)="validationCheck()" *ngIf="activeButton === 'Submit'">Ok</button>
-    <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'">Not Ok</button>
-    <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'">Submit</button>
+    <button mat-raised-button color="primary" (click)="back()" >Back</button>
+    <!-- <button mat-raised-button color="primary" (click)="validationCheck()" *ngIf="activeButton === 'Submit'">Ok</button> -->
+    <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'" (click)="Validate()">Validate</button>
+    <!-- <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'">Submit</button> -->
 
-    <!-- <button mat-raised-button color="primary" (click)="next()">Next</button> -->
+    <button mat-raised-button color="primary" (click)="next()">Next</button>
   </div> 
 
 <div *ngIf="!isButtonDivVisible" class="tabContentdiv">
@@ -143,13 +180,13 @@
 
   <div [ngClass]="{'show': activeDiv === 5 && isSubmitted, 'hide': activeDiv !== 5 }" *ngIf=" activeButton ==='FrontLeft'" >
     <div class="tabContent">
-      <p>Selected Images - Front Left</p>
+    <h2 >Selected Images - Front Left</h2>
       <div class="img-grid">
         <div *ngFor="let img of selectedImagesFrontLeft" class="imgcontent">
           <img [src]="baseUrl + img.image" alt="">
         </div>
       </div>
-    </div>
+    </div>  
   </div>
   
 
@@ -189,7 +226,7 @@
   <!-- Content 4 -->
   <div [ngClass]="{'show': activeDiv === 4 && isSubmitted, 'hide': activeDiv !== 4 || !isSubmitted}" *ngIf="activeButton ==='FrontRight'">
     <div class="tabContent">
-      <p>Selected Images - Front Right</p>
+      <h2>Selected Images - Front Right</h2>
       <div class="img-grid">
         <div *ngFor="let img of selectedImagesFrontRight" class="imgcontent">
           <img [src]="baseUrl + img.image" alt="">
@@ -221,7 +258,7 @@
 
 <div [ngClass]="{'show': activeDiv === 3 && isSubmitted, 'hide': activeDiv !== 3 || !isSubmitted}"  *ngIf="activeButton ==='RearLeft'">
   <div class="tabContent">
-    <p>Selected Images - Rear Left</p>
+    <h2>Selected Images - Rear Left</h2>
     <div class="img-grid">
       <div *ngFor="let img of selectedImagesRearLeft" class="imgcontent">
         <img [src]="baseUrl + img.image" alt="">
@@ -262,7 +299,7 @@
 
 <div [ngClass]="{'show': activeDiv === 4 && isSubmitted, 'hide': activeDiv !== 4 || !isSubmitted}" *ngIf="activeButton === 'RearRight'">
   <div class="tabContent">
-    <p>Selected Images - Rear Right</p>
+    <h2>Selected Images - Rear Right</h2>
     <div class="img-grid">
       <div *ngFor="let img of selectedImagesRearRight" class="imgcontent">
         <img [src]="baseUrl + img.image" alt="">

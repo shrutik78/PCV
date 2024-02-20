@@ -1,3 +1,8 @@
+@mixin for-desktop {
+  @media (max-width: 1440px) {
+    @content;
+  }
+}
 @mixin for-tab {
   @media (max-width: 768px) {
     @content;
@@ -38,8 +43,20 @@
     @include for-tab(){
       width:44rem;
       padding: 0.5rem;
-    }
+
   
+    }
+    custom-card {
+      margin-bottom: 1rem; /* Adjust margin as needed */
+      background-color: #ffffff; /* Card background color */
+      border-radius: 0.5rem; /* Rounded corners */
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3); /* Shadow */
+    }
+    
+    .custom-card mat-card-content {
+      padding: 1rem; /* Padding inside the card */
+    }
+    
     section{
       display: flex;
       flex-direction: row;
@@ -47,24 +64,77 @@
       gap:1.5rem;
       padding: 0.5rem;
     }
-    .controls{
-      display: grid;
-      grid-template-columns: auto auto ;
-      justify-content: center;
-      gap: 2rem;
-      padding: 2rem;
-      width: 100%;
-      button{
-        padding: 1rem;
-        font-size: 1.5rem;
-        width:20rem;
-        @include for-tab(){
-          padding: 1rem;
-          font-size: 1.5rem;
-          width:20rem;
-        }
-      }
+
+
+    section{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap:1.5rem;
+      padding: 0.5rem;
     }
+    // .controls{
+    //   display: grid;
+    //   grid-template-columns: auto auto ;
+    //   justify-content: center;
+    //   gap: 2rem;
+    //   padding: 2rem;
+    //   width: 100%;
+    //   button{
+    //     padding: 1rem;
+    //     font-size: 1.5rem;
+    //     width:20rem;
+    //     @include for-tab(){
+    //       padding: 1rem;
+    //       font-size: 1.5rem;
+    //       width:20rem;
+    //     }
+    //   }
+    // }
+
+    /* Style for the button container */
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 1rem; 
+  justify-content: center;
+
+  .btn{
+    button{
+      margin-right: 2rem;
+    }
+    
+  }
+}
+
+
+/* Style for the buttons */
+button {
+  background-color: #007bff; /* Blue */
+  border: none;
+  color: white;
+  padding: 0px 24px; /* Adjust padding */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer;
+  transition-duration: 0.4s; /* Smooth transition */
+  width: 200px; /* Set button width */
+  margin: 0.5rem; /* Adjust margin between buttons */
+}
+
+/* Hover effect */
+button:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+
+/* Disabled state */
+button[disabled] {
+  background-color: #cccccc; /* Grey */
+  cursor: not-allowed;
+}
   
 }
 
@@ -90,13 +160,75 @@
       width:4rem;
     }
   }
+
+      /* Style for the tab group */
+mat-tab-group {
+  width: 100%;
+}
+
+/* Style for the tab labels */
+.mat-tab-label {
+  background-color: #007bff; /* Blue */
+  color: white;
+}
+
+/* Style for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  background-color: #0056b3; /* Darker blue */
+}
+
+/* Style for the tab content */
+.mat-tab-body-content {
+  padding: 20px;
+}
+/* Style for the image grid */
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 1rem;
+  gap: 20px;
+}
+
+/* Style for the individual image content */
+.imgcontent {
+  position: relative;
+}
+
+/* Style for the images */
+.imgcontent img {
+  width: 140px;
+  height: 130px;
+  display: block;
+  // border-radius: 4px;
+}
+
+/* Style for the checkboxes */
+.imgcontent input[type="checkbox"] {
+  position: relative;
+  top: 0.5rem;
+  margin-left: 4.5rem;
+}
+
+/* Hide content by default */
+.hide {
+  display: none;
+}
+
+/* Show content when active */
+.show {
+  display: block;
+}
+
   .tabs {
     display: flex;
+    // flex-direction: column;
     width: 100%;
     justify-content: space-evenly;
     padding:2rem;
     // border-bottom: 1px #d42836 solid;
-  
+  @include for-tab(){
+    
+  }
     .tabContent {
       background-color: #c0bebf;
       border-radius: 50%;
@@ -106,11 +238,12 @@
       font-weight: 700;
       padding: 10px;
       cursor: pointer;
+
+      h2{
+        text-align: center;
+      }
     }
-    .tabContent.disabled {
-      pointer-events: none; /* Disable pointer events */
-      opacity: 0.5; /* Reduce opacity to visually indicate disabled state */
-    }
+
     .activeTab{
       background-color: #5ba4b1;
       color: #c0bebf;
@@ -133,6 +266,7 @@
           height:150px;
           margin-top: 20px;   
           margin-left: 20px;
+          border: 1px solid black;
           @include for-tab(){
             width: 140px;
             height:130px;
@@ -157,7 +291,7 @@
     padding: 1rem;
     @include for-tab(){
       display: flex;
-      gap:2rem;
+      gap:31rem;
     }
     button{
       width:3.5rem;
@@ -165,7 +299,7 @@
       @include for-tab(){
         
         width:5.5rem;
-
+       
       }
     }
   }
@@ -207,6 +341,12 @@
       }
     
     }  
+    h2{
+      text-align: center;
+      @include for-tab(){
+        text-align: center;
+      }
+    }
       img{
         width: 180px;
         height:150px;

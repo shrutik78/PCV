@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class DashboardAfterScanComponent implements OnInit ,AfterViewInit{
 baseUrl=`https://pcv.pythonanywhere.com/api`
+// apiUrl=`http://192.168.29.78:8000/api`
+
 vinNumber:any
 data:any;
 wheelData:any[]=[];
@@ -45,6 +47,10 @@ ngOnInit(): void {
       console.log("response", res)
       this.data=res.data;
     })
+    // this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
+    //   console.log("response", res)
+    //   this.data=res.data;
+    // })
     this.loadImages();
 }
 
@@ -158,36 +164,9 @@ getlightImages(){
   visitedTabs: Set<number> = new Set();
   
   // Update isSelected method to handle different buttons
-isSelected(img: any, tab: number): boolean {
-  let selectedImagesArray;
-  
-  // Determine which array to use based on the active button
-  switch (this.activeButton) {
-    case 'FrontLeft':
-      selectedImagesArray = this.selectedImagesFrontLeft;
-      break;
-    case 'FrontRight':
-      selectedImagesArray = this.selectedImagesFrontRight;
-      break;
-    case 'RearLeft':
-      selectedImagesArray = this.selectedImagesRearLeft;
-      break;
-    case 'RearRight':
-      selectedImagesArray = this.selectedImagesRearRight;
-      break;
-    default:
-      return false; // If activeButton is unknown, return false
-  }
-  
-  // Check if the image is selected in the selected images array
-  return selectedImagesArray.some(selectedImg => selectedImg.image === img.image && selectedImg.tab === tab);
-}
-
-
-
-  onImageSelected(selectedImage: any, tab: number) {
+  isSelected(img: any, tab: number): boolean {
     let selectedImagesArray;
-    
+  
     // Determine which array to use based on the active button
     switch (this.activeButton) {
       case 'FrontLeft':
@@ -198,16 +177,39 @@ isSelected(img: any, tab: number): boolean {
         break;
       case 'RearLeft':
         selectedImagesArray = this.selectedImagesRearLeft;
-      
         break;
       case 'RearRight':
-        selectedImagesArray = this.selectedImagesRearRight
-      
+        selectedImagesArray = this.selectedImagesRearRight;
+        break;
+      default:
+        return false; // If activeButton is unknown, return false
+    }
+  
+    // Check if the image is selected in the selected images array for the given tab
+    return selectedImagesArray.some(selectedImg => selectedImg.image === img.image && selectedImg.tab === tab);
+  }
+  
+  onImageSelected(selectedImage: any, tab: number) {
+    let selectedImagesArray;
+  
+    // Determine which array to use based on the active button
+    switch (this.activeButton) {
+      case 'FrontLeft':
+        selectedImagesArray = this.selectedImagesFrontLeft;
+        break;
+      case 'FrontRight':
+        selectedImagesArray = this.selectedImagesFrontRight;
+        break;
+      case 'RearLeft':
+        selectedImagesArray = this.selectedImagesRearLeft;
+        break;
+      case 'RearRight':
+        selectedImagesArray = this.selectedImagesRearRight;
         break;
       default:
         return; // If activeButton is unknown, do nothing
     }
-    
+  
     // Unselect previously selected images in the same tab
     selectedImagesArray = selectedImagesArray.filter(img => img.tab !== tab);
   
@@ -221,29 +223,28 @@ isSelected(img: any, tab: number): boolean {
       // If not selected, add it
       selectedImagesArray.push({ ...selectedImage, tab, selected: true });
     }
-    
+  
     // Update the selected images array based on the active button
     switch (this.activeButton) {
       case 'FrontLeft':
         this.selectedImagesFrontLeft = selectedImagesArray;
-        console.log(this.selectedImagesFrontLeft)
         break;
       case 'FrontRight':
-      this.selectedImagesFrontRight=selectedImagesArray
+        this.selectedImagesFrontRight = selectedImagesArray;
         break;
       case 'RearLeft':
-      this.selectedImagesRearLeft=selectedImagesArray
+        this.selectedImagesRearLeft = selectedImagesArray;
         break;
       case 'RearRight':
-       this.selectedImagesRearRight=selectedImagesArray
+        this.selectedImagesRearRight = selectedImagesArray;
         break;
       default:
         break;
     }
-    
+  
     this.visitedTabs.add(tab);
-
   }
+  
 
 isSubmitted: boolean = false;
 isFrontLeftDisabled: boolean = false;
@@ -298,6 +299,30 @@ submitAll() {
     ...this.selectedImagesRearLeft,
     ...this.selectedImagesRearRight
   ];
+  console.log(this.selectedImagesAll)
+
+
+}
+
+
+Validate() {
+  this.selectedImagesAll = [
+    ...this.selectedImagesFrontLeft,
+    ...this.selectedImagesFrontRight,
+    ...this.selectedImagesRearLeft,
+    ...this.selectedImagesRearRight
+  ];
+  console.log(this.selectedImagesAll)
+  this.image.getAllImages(this.selectedImagesAll).subscribe(
+ (response:any) => {
+        
+        console.log('Images submitted successfully:', response);
+      },
+      error => {
+
+        console.error('Error submitting images:', error);
+      }
+    );
 }
 
 
@@ -384,7 +409,7 @@ toggleDivs(button: string) {
     }
 }  
 
-activeDiv: number = 1;
+activeDiv: number=1 ;
 switchDiv(divNumber: number) {
   // Check if there are selected images for the current tab
   let selectedImagesArray;
