@@ -1,3 +1,9 @@
+@mixin for-desktop {
+  @media (max-width: 1440px) {
+    @content;
+  }
+}
+
 @mixin for-tab {
   @media (max-width: 768px) {
     @content;
@@ -12,20 +18,26 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap:1rem;
   button{
     width: 40%;
     height: 3rem;
     font-size: 1rem;
     @include for-tab(){
+   
       margin-top:1rem;
     }
   }
   .content{
+
     padding:0.5rem;
     @include for-tab(){
-    
+      position: relative;
+    width: 65%;
+    height: auto;
+    overflow: hidden;
         max-width: 80%;
-        width: 69%;
+      
     }
   }
 }

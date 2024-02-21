@@ -54,3 +54,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-bottom: none; /* Removes the underline */
   background-color: transparent; /* Makes the background transparent */
 }
+
+
+div:where(.swal2-container).swal2-center>.swal2-popup {
+  grid-column: 2;
+  grid-row: 2;
+  place-self: center center;
+}
+
+  

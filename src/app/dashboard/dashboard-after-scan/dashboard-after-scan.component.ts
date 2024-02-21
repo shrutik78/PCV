@@ -4,14 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { ImagesService } from 'src/app/services/images.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-dashboard-after-scan',
   templateUrl: './dashboard-after-scan.component.html',
   styleUrls: ['./dashboard-after-scan.component.scss']
 })
 export class DashboardAfterScanComponent implements OnInit ,AfterViewInit{
-baseUrl=`https://pcv.pythonanywhere.com/api`
-// apiUrl=`http://192.168.29.78:8000/api`
+// baseUrl=`https://pcv.pythonanywhere.com/api`
+baseUrl=`http://192.168.29.78:8000/api`
 
 vinNumber:any
 data:any;
@@ -43,14 +44,14 @@ ngOnInit(): void {
     this.vinNumber =  this.activeRoute.snapshot.params['vinNumber']
    
     console.log(this.wheelData)
-    this.http.get(`https://pcv.pythonanywhere.com/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
-      console.log("response", res)
-      this.data=res.data;
-    })
-    // this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
+    // this.http.get(`https://pcv.pythonanywhere.com/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
     //   console.log("response", res)
     //   this.data=res.data;
     // })
+    this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
+      console.log("response", res)
+      this.data=res.data;
+    })
     this.loadImages();
 }
 
@@ -285,8 +286,7 @@ isButtonDivVisible = true;
 
 
 }
-
-
+  
 
 isAllButtonsDisabled(): boolean {
   return this.isFrontLeftDisabled && this.isFrontRightDisabled && this.isRearLeftDisabled && this.isRearRightDisabled;
@@ -300,24 +300,52 @@ submitAll() {
     ...this.selectedImagesRearRight
   ];
   console.log(this.selectedImagesAll)
-
-
 }
 
 
 Validate() {
-  this.selectedImagesAll = [
-    ...this.selectedImagesFrontLeft,
-    ...this.selectedImagesFrontRight,
-    ...this.selectedImagesRearLeft,
-    ...this.selectedImagesRearRight
-  ];
-  console.log(this.selectedImagesAll)
-  this.image.getAllImages(this.selectedImagesAll).subscribe(
+
+  this.image.getAllImages(this.vinNumber,this.selectedImagesAll).subscribe(
  (response:any) => {
-        
-        console.log('Images submitted successfully:', response);
+        if(response.status =='OK'){
+          Swal.fire({
+            title: '',
+            text: 'Car have completed all complexity validation check',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Cancel',
+            showCancelButton: true,
+            showConfirmButton: true,
+            position:'center',
+            width:'20rem',
+        }).then((confirmation) => {
+            if (confirmation.isConfirmed) {
+            this.router.navigate(['/','dashboard'])
+          }
+        })
+          console.log('Images submitted successfully:', response);
+        }
+       
+        else if (response.status == 'NOT OK') {
+          // const missingImages = response.missing_images.join(', ') ${missingImages};
+          Swal.fire({
+            title: '',
+            html: `Not completed complexity validation check. Missing images: <br/>`,
+            icon: 'error',
+            cancelButtonText: 'Cancel',
+            showCancelButton: true,
+            showConfirmButton: true,
+            position:'center',
+            width:'20rem',
+          
+          }).then((confirmation) => {
+            if (confirmation.isConfirmed) {
+              // Handle user confirmation if needed
+            }
+          });
+        }
       },
+    
       error => {
 
         console.error('Error submitting images:', error);
@@ -411,27 +439,8 @@ toggleDivs(button: string) {
 
 activeDiv: number=1 ;
 switchDiv(divNumber: number) {
-  // Check if there are selected images for the current tab
-  let selectedImagesArray;
-  switch (this.activeButton) {
-    case 'FrontLeft':
-      selectedImagesArray = this.selectedImagesFrontLeft;
-      break;
-    case 'FrontRight':
-      selectedImagesArray = this.selectedImagesFrontRight;
-      break;
-    case 'RearLeft':
-      selectedImagesArray = this.selectedImagesRearLeft;
-      break;
-    case 'RearRight':
-      selectedImagesArray = this.selectedImagesRearRight;
-      break;
-    default:
-      selectedImagesArray = [];
-      break;
-  }
-
-  const imagesSelected = selectedImagesArray.some(img => img.tab === this.activeDiv);
+ 
+  const imagesSelected = this.checkIfImageSelected();
   if (!imagesSelected) {
     // Display a message if no image is selected
     alert("Please select an image before switching tabs.");
@@ -441,12 +450,46 @@ switchDiv(divNumber: number) {
   this.activeDiv = divNumber;
 }
 
-next(){
-  this.activeDiv++
-  // if(this.activeDiv>5){
-  //   this.activeDiv=1
-  // }
+nextTab() {
+  // Check if there are selected images for the current tab
+  const imagesSelected = this.checkIfImageSelected();
+
+  if (!imagesSelected) {
+      // If no image is selected, display an alert
+      alert("Please select an image before moving to the next tab.");
+      return; 
+  }
+
+  // Move to the next tab
+  if (this.activeDiv < 5) { 
+      this.activeDiv++;
+  }
 }
+
+checkIfImageSelected(): boolean {
+  // Logic to check if any image is selected in the current tab
+  let selectedImagesArray;
+  switch (this.activeButton) {
+      case 'FrontLeft':
+          selectedImagesArray = this.selectedImagesFrontLeft;
+          break;
+      case 'FrontRight':
+          selectedImagesArray = this.selectedImagesFrontRight;
+          break;
+      case 'RearLeft':
+          selectedImagesArray = this.selectedImagesRearLeft;
+          break;
+      case 'RearRight':
+          selectedImagesArray = this.selectedImagesRearRight;
+          break;
+      default:
+          selectedImagesArray = [];
+          break;
+  }
+
+  return selectedImagesArray.some(img => img.tab === this.activeDiv);
+}
+
 back(){
     this.activeDiv--
     if(this.activeDiv<1){

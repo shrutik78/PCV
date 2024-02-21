@@ -7,19 +7,19 @@
     <section>
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Country Manf: {{data.country_manuf}}</p>
+          <p>Country Manf : {{data.country_manuf}}</p>
         </mat-card-content>
       </mat-card>
       
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Type: {{data.vehicle_type}}</p>
+          <p>Vehicle Type : {{data.vehicle_type}}</p>
         </mat-card-content>
       </mat-card>
     
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Model: {{data.vehicle_model}}</p>
+          <p>Vehicle Model : {{data.vehicle_model}}</p>
         </mat-card-content>
       </mat-card>
     </section>
@@ -27,18 +27,18 @@
       <section>
         <mat-card class="custom-card">
           <mat-card-content>
-            <p>Vehicle Brand: {{data.vehicle_brand}}</p>
+            <p>Vehicle Brand : {{data.vehicle_brand}}</p>
           </mat-card-content>
         </mat-card>
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Brand: {{data.vehicle_brand}}</p>
+          <p>Vehicle Brand : {{data.vehicle_brand}}</p>
         </mat-card-content>
       </mat-card>
       
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Brand: {{data.vehicle_brand}}</p>
+          <p>Vehicle Brand : {{data.vehicle_brand}}</p>
         </mat-card-content>
       </mat-card>
     </section>
@@ -64,10 +64,9 @@
         <button mat-raised-button color="primary" [disabled]="isFrontRightDisabled" (click)="toggleDivs('FrontRight')">Front Right</button>
         <button mat-raised-button color="primary" [disabled]="isRearLeftDisabled" (click)="toggleDivs('RearLeft')">Rear Left</button>
         <button mat-raised-button color="primary" [disabled]="isRearRightDisabled" (click)="toggleDivs('RearRight')">Rear Right</button>
-      <div class="btn">
-        <button mat-raised-button color="primary" *ngIf="isAllButtonsDisabled()" (click)="submitAll()" (click)="toggleDivs('Submit')">Submit All</button>
 
-      </div>
+        <button class="btn" mat-raised-button color="primary" *ngIf="isAllButtonsDisabled()" (click)="submitAll()" (click)="toggleDivs('Submit')">Submit All</button>
+ 
 
       </div>
   </div>
@@ -80,15 +79,6 @@
     <div class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''" >DoorHandle</div>
     <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''" >HubCap</div>
     <div   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></div>
-
-
-<!-- <mat-tab-group>
-      <mat-tab label="Window" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''"></mat-tab>
-      <mat-tab label="Door" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==2?'activeTab':''"></mat-tab>
-      <mat-tab label="DoorHandle" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==3?'activeTab':''"></mat-tab>
-      <mat-tab label="HubCap" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==4?'activeTab':''"></mat-tab>
-      <mat-tab   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></mat-tab>
-    </mat-tab-group> -->
   </div>
 <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontRight'">
     <!-- Tab content for Front Right -->
@@ -123,15 +113,10 @@
 </div>
 
 
-
-
   <div class="controller" *ngIf="!isButtonDivVisible">
     <button mat-raised-button color="primary" (click)="back()" >Back</button>
-    <!-- <button mat-raised-button color="primary" (click)="validationCheck()" *ngIf="activeButton === 'Submit'">Ok</button> -->
-    <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'" (click)="Validate()">Validate</button>
-    <!-- <button mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'">Submit</button> -->
-
-    <button mat-raised-button color="primary" (click)="next()">Next</button>
+    <button style="width:5.5rem" mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'" (click)="Validate()">Validate</button>
+    <button mat-raised-button color="primary" (click)="nextTab()">Next</button>
   </div> 
 
 <div *ngIf="!isButtonDivVisible" class="tabContentdiv">
@@ -140,7 +125,7 @@
   <div class="img-grid">
     <div *ngFor="let img of windowData; let i=index" (click)="onImageSelected(img, 1)" class="imgcontent" >    
         <img src="{{ baseUrl + img.image }}" alt="">
-        <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:5.5rem;">
+        <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:4.5rem;">
     </div>
   </div>
 </div>
@@ -151,7 +136,7 @@
   <div class="img-grid">
     <div *ngFor="let img of doorData; let i=index" (click)="onImageSelected(img, 2)" class="imgcontent">
       <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:5.5rem;">
+      <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:4.5rem;">
     </div>
   </div>
 </div>
@@ -161,7 +146,7 @@
   <div class="img-grid">
     <div *ngFor="let img of handleData; let i=index" (click)="onImageSelected(img, 3)" class="imgcontent">
       <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" style="position:relative;margin-left:5.5rem;">
+      <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" style="position:relative;margin-left:4.5rem;">
     </div>
   </div>
 </div>
@@ -171,7 +156,7 @@
   <div class="img-grid">
     <div *ngFor="let img of hubcapData; let i=index" (click)="onImageSelected(img,4)" class="imgcontent">   
       <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img, 4)" (change)="onImageSelected(img, 4)" style="position:relative;margin-left:5.5rem;">
+      <input type="checkbox" [checked]="isSelected(img, 4)" (change)="onImageSelected(img, 4)" style="position:relative;margin-left:4.5rem;">
     </div>
   </div>
   </div>
@@ -199,7 +184,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of wheelData; let i=index" (click)="onImageSelected(img,1)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -208,7 +193,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of roofData; let i=index" (click)="onImageSelected(img,2)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -217,7 +202,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of mirrorData; let i=index" (click)="onImageSelected(img,3)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -242,7 +227,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of trunkData; let i=index" (click)="onImageSelected(img,1)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -251,7 +236,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of lightData; let i=index" (click)="onImageSelected(img,2)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -274,7 +259,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of logoData; let i=index" (click)="onImageSelected(img,1)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -283,7 +268,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of wiperData; let i=index" (click)="onImageSelected(img,2)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -292,7 +277,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of hoodData; let i=index" (click)="onImageSelected(img,3)" class="imgcontent">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" style="position:relative;margin-left:5.5rem;">
+    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" style="position:relative;margin-left:4.5rem;">
   </div>
   </div>
 </div>
@@ -311,30 +296,26 @@
 
 
 
-  <div class="action" >
-    <button mat-raised-button color="primary" (click)="onSubmit()"   *ngIf="activeDiv== 4 && activeButton === 'FrontLeft'"  >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick('FrontLeft')" *ngIf="activeDiv== 5 && activeButton === 'FrontLeft'"  >Done </button>
-    
-  </div>
-  <div class="action" >
-    <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 && activeButton === 'FrontRight'" >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick('FrontRight')" *ngIf="activeDiv== 4 && activeButton === 'FrontRight'" >Done </button>
-  
-  </div>
-  <div class="action" >
-    <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 &&  activeButton === 'RearRight'" >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick('RearRight')" *ngIf="activeDiv== 4 &&  activeButton === 'RearRight'" >Done </button>
-  
-  </div>
-
-  <div class="action" >
-    <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 2 && activeButton === 'RearLeft'" >Submit </button>
-    <button mat-raised-button color="primary" (click)="onClick('RearLeft')" *ngIf="activeDiv== 3 && activeButton === 'RearLeft'" >Done </button>
-  
-  </div>
+<div class="action">
+  <button mat-raised-button color="primary" (click)="onSubmit()"   *ngIf="activeDiv== 4 && activeButton === 'FrontLeft'"  >Submit </button>
+  <button mat-raised-button color="primary" (click)="onClick('FrontLeft')" *ngIf="activeDiv== 5 && activeButton === 'FrontLeft'"  >Done </button>  
 </div>
+<div class="action" >
+  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 && activeButton === 'FrontRight'" >Submit </button>
+  <button mat-raised-button color="primary" (click)="onClick('FrontRight')" *ngIf="activeDiv== 4 && activeButton === 'FrontRight'" >Done </button>
 
+</div>
+<div class="action" >
+  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 &&  activeButton === 'RearRight'" >Submit </button>
+  <button mat-raised-button color="primary" (click)="onClick('RearRight')" *ngIf="activeDiv== 4 &&  activeButton === 'RearRight'" >Done </button>
 
 </div>
 
+<div class="action" >
+  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 2 && activeButton === 'RearLeft'" >Submit </button>
+  <button mat-raised-button color="primary" (click)="onClick('RearLeft')" *ngIf="activeDiv== 3 && activeButton === 'RearLeft'" >Done </button>
 
+</div>
+</div>
+</div>
+</div>

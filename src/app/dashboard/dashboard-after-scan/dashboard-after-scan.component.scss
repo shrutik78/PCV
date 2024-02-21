@@ -39,40 +39,50 @@
     background-color: #fff;
     border-radius: 1rem;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-    width: 60rem;
+    width: 52rem;
     @include for-tab(){
       width:44rem;
       padding: 0.5rem;
 
   
     }
-    custom-card {
+    .custom-card {
+      width:13rem;
       margin-bottom: 1rem; /* Adjust margin as needed */
       background-color: #ffffff; /* Card background color */
       border-radius: 0.5rem; /* Rounded corners */
       box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3); /* Shadow */
+      @include for-tab(){
+        width:11rem;
+      }
     }
     
     .custom-card mat-card-content {
       padding: 1rem; /* Padding inside the card */
+      p{
+        font-size:1rem;
+        // font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-weight: 500;
+        text-align: center;
+        @include for-tab(){
+          font-size: 0.8rem;
+        }
+      }
     }
     
     section{
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap:1.5rem;
+      gap:2.5rem;
       padding: 0.5rem;
+      @include for-tab(){
+        gap:1.5rem;
+        padding: 0.5rem;
+      }
     }
 
 
-    section{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap:1.5rem;
-      padding: 0.5rem;
-    }
     // .controls{
     //   display: grid;
     //   grid-template-columns: auto auto ;
@@ -98,14 +108,16 @@
   grid-template-columns: repeat(2, 1fr); /* Two columns */
   gap: 1rem; 
   justify-content: center;
-
+  gap:1rem;
+  @include for-tab(){
+    padding:1rem;
+  }
   .btn{
-    button{
+    
       margin-right: 2rem;
-    }
     
   }
-}
+
 
 
 /* Style for the buttons */
@@ -117,12 +129,18 @@ button {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 1.5rem;
   border-radius: 4px; /* Rounded corners */
   cursor: pointer;
   transition-duration: 0.4s; /* Smooth transition */
-  width: 200px; /* Set button width */
+  width: 15rem; /* Set button width */
+  height: 3rem;
   margin: 0.5rem; /* Adjust margin between buttons */
+ @include for-tab(){
+  width:10rem;
+  height:2rem;
+  font-size:16px;
+ }
 }
 
 /* Hover effect */
@@ -137,8 +155,8 @@ button[disabled] {
 }
   
 }
-
 }
+
 .sub-content{
   display: flex;
   flex-direction: column;
@@ -147,77 +165,10 @@ button[disabled] {
   background-color: #fff;
   border-radius: 1rem;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-  width: 60rem;
+  width: 55rem;
   @include for-tab(){
     width:44rem;
-    
   }
-
-  .back{
-    display: flex;
-    padding:0.5rem;
-    button{
-      width:4rem;
-    }
-  }
-
-      /* Style for the tab group */
-mat-tab-group {
-  width: 100%;
-}
-
-/* Style for the tab labels */
-.mat-tab-label {
-  background-color: #007bff; /* Blue */
-  color: white;
-}
-
-/* Style for the active tab label */
-.mat-tab-label.mat-tab-label-active {
-  background-color: #0056b3; /* Darker blue */
-}
-
-/* Style for the tab content */
-.mat-tab-body-content {
-  padding: 20px;
-}
-/* Style for the image grid */
-.img-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 1rem;
-  gap: 20px;
-}
-
-/* Style for the individual image content */
-.imgcontent {
-  position: relative;
-}
-
-/* Style for the images */
-.imgcontent img {
-  width: 140px;
-  height: 130px;
-  display: block;
-  // border-radius: 4px;
-}
-
-/* Style for the checkboxes */
-.imgcontent input[type="checkbox"] {
-  position: relative;
-  top: 0.5rem;
-  margin-left: 4.5rem;
-}
-
-/* Hide content by default */
-.hide {
-  display: none;
-}
-
-/* Show content when active */
-.show {
-  display: block;
-}
 
   .tabs {
     display: flex;
@@ -227,6 +178,7 @@ mat-tab-group {
     padding:2rem;
     // border-bottom: 1px #d42836 solid;
   @include for-tab(){
+    padding: 0.5rem;
     
   }
     .tabContent {
@@ -234,10 +186,14 @@ mat-tab-group {
       // border-radius: 50%;
       color:#007bff; ;
       // margin: 10px;
+      position: relative;
       font-size: 1.3rem;
-      font-weight: 700;
+      font-weight: 500;
       padding: 10px;
       cursor: pointer;
+      @include for-tab(){
+        font-size: 1.1rem;
+      }
 
       h2{
         text-align: center;
@@ -247,19 +203,26 @@ mat-tab-group {
     .activeTab{
       color:#0056b3;;
     }
+    .tabContent.activeTab::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 15%;
+      width: 6rem;
+      height: 2px;
+      background-color: #0056b3;
+  }
     .img-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr); 
       gap: 16px; 
       max-height: 300px; 
       overflow-y: auto;
+      
       @include for-tab(){
-        display: grid;
-        grid-template-columns: repeat(4, 1fr); 
         column-gap: 3px;
       }
-    
- 
+     
         img{
           width: 180px;
           height:150px;
@@ -267,10 +230,8 @@ mat-tab-group {
           margin-left: 20px;
           border: 1px solid black;
           @include for-tab(){
-            width: 140px;
-            height:130px;
-            border: 1px solid black;
-           
+            width: 130px;
+            height:130px;           
            
           }
       }
@@ -286,40 +247,31 @@ mat-tab-group {
   .controller{
     display: flex;
   // justify-content: space-evenly;
-    gap: 2rem;
+    gap: 42rem;
     padding: 1rem;
     @include for-tab(){
-      display: flex;
+      padding:0.5rem;
       gap:31rem;
     }
     button{
-      width:3.5rem;
+      width:5.5rem;
 
-      @include for-tab(){
-        
-        width:5.5rem;
-       
+      @include for-tab(){        
+        width:3.5rem;
+        height:2rem; 
       }
     }
   }
+
   .tabContentdiv {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly; 
     margin-left:1rem;
     margin-block-start: 0.5rem;
- 
-    .action{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      button{
-        width:8rem;
-      }
-     }
-  }
-  
+    @include for-tab(){
+      margin-block-start: 1.5rem;
+    }
     
   .show {
     display: flex;
@@ -334,8 +286,6 @@ mat-tab-group {
       max-height: 300px; 
       overflow-y: auto;
       @include for-tab(){
-        display: grid;
-        grid-template-columns: repeat(4, 1fr); 
         column-gap: 3px;
       }
     
@@ -349,10 +299,10 @@ mat-tab-group {
       img{
         width: 180px;
         height:150px;
-        margin-top: 20px;   
-        margin-left: 20px;
+    
+        border: 1px solid black;
         @include for-tab(){
-          width: 140px;
+          width: 130px;
           height:130px;
           border: 1px solid black;
         }
@@ -369,6 +319,23 @@ mat-tab-group {
     display: none;
   }
  
-}
+ 
 
-   
+.action{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  @include for-tab(){
+    padding-top:0.3rem;
+  }
+  button{
+    width:8rem;
+    @include for-tab(){
+      width:7rem;
+    }
+  }
+ }
+}
+}
+}  
