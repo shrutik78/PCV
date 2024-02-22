@@ -59,7 +59,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 div:where(.swal2-container).swal2-center>.swal2-popup {
   grid-column: 2;
   grid-row: 2;
-  place-self: center center;
+  place-self:center center;
+  margin-right:13rem;
+  margin-top:8rem;
 }
+
+
 
   

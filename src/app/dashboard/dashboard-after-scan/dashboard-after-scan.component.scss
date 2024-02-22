@@ -49,7 +49,7 @@
     .custom-card {
       width:13rem;
       margin-bottom: 1rem; /* Adjust margin as needed */
-      background-color: #ffffff; /* Card background color */
+      background-color: #fff; /* Card background color */
       border-radius: 0.5rem; /* Rounded corners */
       box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3); /* Shadow */
       @include for-tab(){
@@ -61,7 +61,6 @@
       padding: 1rem; /* Padding inside the card */
       p{
         font-size:1rem;
-        // font-family: Roboto, "Helvetica Neue", sans-serif;
         font-weight: 500;
         text-align: center;
         @include for-tab(){
@@ -104,22 +103,23 @@
 
     /* Style for the button container */
 .controls {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
-  gap: 1rem; 
-  justify-content: center;
-  gap:1rem;
+  // display: grid;
+  // grid-template-columns: repeat(2, 1fr); /* Two columns */
+display: flex;
+flex-direction: column;
+justify-content: center;
   @include for-tab(){
-    padding:1rem;
+    //padding:1rem;s
+  
   }
-  .btn{
-    
-      margin-right: 2rem;
-    
+ 
+  .buttons{
+    flex-direction: column;
   }
 
-
-
+button.action-btn{
+  margin-left: 6rem;
+}
 /* Style for the buttons */
 button {
   background-color: #007bff; /* Blue */
@@ -137,9 +137,9 @@ button {
   height: 3rem;
   margin: 0.5rem; /* Adjust margin between buttons */
  @include for-tab(){
-  width:10rem;
+  width:11rem;
   height:2rem;
-  font-size:16px;
+  font-size:17px;
  }
 }
 
@@ -153,8 +153,11 @@ button[disabled] {
   background-color: #cccccc; /* Grey */
   cursor: not-allowed;
 }
-  
+ 
+
 }
+
+
 }
 
 .sub-content{
@@ -180,6 +183,37 @@ button[disabled] {
   @include for-tab(){
     padding: 0.5rem;
     
+  }
+  .img-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px; 
+    max-height: 300px; 
+    overflow-y: auto;
+    
+    @include for-tab(){
+      column-gap: 3px;
+    }
+   
+      img{
+        width: 180px;
+        height:150px;
+        margin-top: 20px;   
+        margin-left: 20px;
+        border: 1px solid black;
+        @include for-tab(){
+          width: 130px;
+          height:130px;           
+         
+        }
+    }
+
+    .imgcontent {
+      position: relative;
+      // height:176px;
+      // width:176px;
+      // border: 1px solid #202020; 
+    }
   }
     .tabContent {
       // background-color: #c0bebf;
@@ -212,37 +246,7 @@ button[disabled] {
       height: 2px;
       background-color: #0056b3;
   }
-    .img-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); 
-      gap: 16px; 
-      max-height: 300px; 
-      overflow-y: auto;
-      
-      @include for-tab(){
-        column-gap: 3px;
-      }
-     
-        img{
-          width: 180px;
-          height:150px;
-          margin-top: 20px;   
-          margin-left: 20px;
-          border: 1px solid black;
-          @include for-tab(){
-            width: 130px;
-            height:130px;           
-           
-          }
-      }
- 
-      .imgcontent {
-        position: relative;
-        // height:176px;
-        // width:176px;
-        // border: 1px solid #202020; 
-      }
-    }
+   
   }
   .controller{
     display: flex;
@@ -327,7 +331,7 @@ button[disabled] {
   justify-content: center;
   padding: 1rem;
   @include for-tab(){
-    padding-top:0.3rem;
+    padding:0.3rem;
   }
   button{
     width:8rem;
@@ -339,3 +343,5 @@ button[disabled] {
 }
 }
 }  
+
+

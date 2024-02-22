@@ -7,19 +7,22 @@
     <section>
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Country Manf : {{data.country_manuf}}</p>
+          <p>Country Manf : </p>
+          <b><p style="font-size: 1.3rem;">{{data.country_manuf}}</p></b>
         </mat-card-content>
       </mat-card>
       
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Type : {{data.vehicle_type}}</p>
+          <p>Vehicle Type :</p>
+          <b><p style="font-size: 1.3rem;"> {{data.vehicle_type}}</p></b>
         </mat-card-content>
       </mat-card>
     
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Model : {{data.vehicle_model}}</p>
+          <p>Vehicle Model :</p>
+          <b><p style="font-size: 1.3rem;"> {{data.vehicle_model}}</p></b>
         </mat-card-content>
       </mat-card>
     </section>
@@ -27,18 +30,21 @@
       <section>
         <mat-card class="custom-card">
           <mat-card-content>
-            <p>Vehicle Brand : {{data.vehicle_brand}}</p>
+            <p>Vehicle Brand :</p>
+            <b><p style="font-size: 1.3rem;"> {{data.vehicle_brand}}</p></b>
           </mat-card-content>
         </mat-card>
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Brand : {{data.vehicle_brand}}</p>
+          <p>Vehicle Brand :</p>
+          <b><p style="font-size: 1.3rem;"> {{data.vehicle_brand}}</p></b>
         </mat-card-content>
       </mat-card>
       
       <mat-card class="custom-card">
         <mat-card-content>
-          <p>Vehicle Brand : {{data.vehicle_brand}}</p>
+          <p>Vehicle Brand :</p>
+          <b><p style="font-size: 1.3rem;"> {{data.vehicle_brand}}</p></b>
         </mat-card-content>
       </mat-card>
     </section>
@@ -60,18 +66,20 @@
 
 
     <div class="controls" *ngIf="isButtonDivVisible" >
+      <div class="buttons">
         <button mat-raised-button color="primary" [disabled]="isFrontLeftDisabled" (click)="toggleDivs('FrontLeft')">Front Left</button>
+        <button mat-raised-button color="primary" [disabled]="isRearLeftDisabled" (click)="toggleDivs('RearLeft')">Rear Left</button>       
+      </div>
+      <div class="buttons">
         <button mat-raised-button color="primary" [disabled]="isFrontRightDisabled" (click)="toggleDivs('FrontRight')">Front Right</button>
-        <button mat-raised-button color="primary" [disabled]="isRearLeftDisabled" (click)="toggleDivs('RearLeft')">Rear Left</button>
         <button mat-raised-button color="primary" [disabled]="isRearRightDisabled" (click)="toggleDivs('RearRight')">Rear Right</button>
-
-        <button class="btn" mat-raised-button color="primary" *ngIf="isAllButtonsDisabled()" (click)="submitAll()" (click)="toggleDivs('Submit')">Submit All</button>
- 
-
+      </div>
+        <button mat-raised-button color="primary" (click)="submitAll()" *ngIf="isAllButtonsDisabled()" (click)="toggleDivs('Submit')" class="action-btn">Submit All</button>
       </div>
   </div>
 
 <div class="sub-content">
+
   <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontLeft'">
     <!-- Tab content for Front Left -->
     <div  class="tabContent" *ngIf="activeDiv !== 5 " (click)="switchDiv(1)" [ngClass]="activeDiv==1?'activeTab':''" >Window</div>
@@ -103,7 +111,7 @@
   <div  (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''"></div>
 </div>
 
-<div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'Submit'" style="display:flex;flex-direction: column;">
+<div class="tabs"*ngIf="!isButtonDivVisible && activeButton === 'Submit' && !showMissingImages" style="display:flex;flex-direction: column;">
   <h2 style="text-align: center;">All Selected Images</h2>
   <div class="img-grid">
   <div *ngFor="let img of selectedImagesAll" class="imgcontent">
@@ -112,11 +120,21 @@
   </div>
 </div>
 
+<div class="tabs" *ngIf="showMissingImages" style="display:flex;flex-direction: column;">
+  <h2 style="text-align: center; margin-top:1rem;">Missing Images</h2>
+  <div class="img-grid">
+    <div *ngFor="let img of missingImages" class="imgcontent">
+      <img [src]="baseUrl + img" alt="">
+    </div>
+  </div>
+</div>
 
   <div class="controller" *ngIf="!isButtonDivVisible">
-    <button mat-raised-button color="primary" (click)="back()" >Back</button>
-    <button style="width:5.5rem" mat-raised-button color="primary"  *ngIf="activeButton === 'Submit'" (click)="Validate()">Validate</button>
-    <button mat-raised-button color="primary" (click)="nextTab()">Next</button>
+    <button mat-raised-button color="primary" (click)="back()" *ngIf="!showMissingImages">Back</button>
+    <button style="width:5.5rem" mat-raised-button color="primary"  *ngIf="activeButton === 'Submit' && !showMissingImages" (click)="Validate()">Validate</button>
+    <button  mat-raised-button color="primary"  *ngIf="showMissingImages" (click)="submit()">Ok</button>
+    
+    <button mat-raised-button color="primary" (click)="nextTab()" *ngIf="!showMissingImages">Next</button>
   </div> 
 
 <div *ngIf="!isButtonDivVisible" class="tabContentdiv">

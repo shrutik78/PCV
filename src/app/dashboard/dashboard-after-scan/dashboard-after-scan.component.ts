@@ -29,12 +29,13 @@ hoodData:any[]=[];
 trunkData:any[]=[];
 lightData:any[]=[];
 
+
 constructor(private activeRoute:ActivatedRoute,private http:HttpClient,
   private router:Router,private image:ImagesService,){
-
+  
   }
   ngAfterViewInit(): void {
-    
+    this.loadImages();
   }
 
  
@@ -52,7 +53,7 @@ ngOnInit(): void {
       console.log("response", res)
       this.data=res.data;
     })
-    this.loadImages();
+  
 }
 
 loadImages(){
@@ -302,9 +303,10 @@ submitAll() {
   console.log(this.selectedImagesAll)
 }
 
+showMissingImages: boolean = false;
+missingImages: string[] = []; 
 
 Validate() {
-
   this.image.getAllImages(this.vinNumber,this.selectedImagesAll).subscribe(
  (response:any) => {
         if(response.status =='OK'){
@@ -312,11 +314,10 @@ Validate() {
             title: '',
             text: 'Car have completed all complexity validation check',
             icon: 'success',
-            confirmButtonText: 'Ok',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Submit',
             showCancelButton: true,
             showConfirmButton: true,
-            position:'center',
+          
             width:'20rem',
         }).then((confirmation) => {
             if (confirmation.isConfirmed) {
@@ -327,25 +328,26 @@ Validate() {
         }
        
         else if (response.status == 'NOT OK') {
-          // const missingImages = response.missing_images.join(', ') ${missingImages};
+          this.missingImages = response.missing_images;
+
           Swal.fire({
             title: '',
-            html: `Not completed complexity validation check. Missing images: <br/>`,
+            html: `Not completed complexity validation check. <br/>`,
             icon: 'error',
+            confirmButtonText: 'Ok',
             cancelButtonText: 'Cancel',
             showCancelButton: true,
             showConfirmButton: true,
-            position:'center',
-            width:'20rem',
-          
+            width: '20rem',
+       
           }).then((confirmation) => {
             if (confirmation.isConfirmed) {
-              // Handle user confirmation if needed
+              // Set showMissingImages to true when user clicks OK
+              this.showMissingImages = true;
             }
           });
         }
       },
-    
       error => {
 
         console.error('Error submitting images:', error);
@@ -353,6 +355,9 @@ Validate() {
     );
 }
 
+submit(){
+  return this.router.navigate(['dashboard'])
+}
 
 onClick(button:string){
 this.activeButton=button;
@@ -431,7 +436,9 @@ toggleDivs(button: string) {
         case 'Submit':
               this.isButtonDivVisible = !this.isButtonDivVisible;
               break;
-            
+        case 'Vaildate':
+              this.isButtonDivVisible = !this.isButtonDivVisible;
+              break;    
         default:
             break;
     }
@@ -459,12 +466,11 @@ nextTab() {
       alert("Please select an image before moving to the next tab.");
       return; 
   }
-
-  // Move to the next tab
   if (this.activeDiv < 5) { 
       this.activeDiv++;
   }
 }
+
 
 checkIfImageSelected(): boolean {
   // Logic to check if any image is selected in the current tab
