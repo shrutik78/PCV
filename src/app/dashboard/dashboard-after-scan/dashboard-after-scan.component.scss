@@ -118,7 +118,10 @@ justify-content: center;
   }
 
 button.action-btn{
-  margin-left: 6rem;
+  margin-left: 8rem;
+  @include for-tab(){
+    margin-left: 6rem;
+  }
 }
 /* Style for the buttons */
 button {
@@ -313,10 +316,28 @@ button[disabled] {
       }
       .imgcontent {
         position: relative;
-        // height:176px;
-        // width:176px;
-        // border: 1px solid #202020; 
+        
+        input[type="checkbox"] {
+          margin-left: 5.2rem;
+    
+          @include for-tab() {
+            margin-left: 3.8rem;
+          }
+
+        }
+    
+        &.selected {
+          width:182px;
+          height:152px;
+          border: 2px solid green;
+         @include for-tab(){
+          width:132px;
+          height:132px;
+          border: 2px solid green;
+         }
+        }
       }
+      
   }
   
   .hide {
