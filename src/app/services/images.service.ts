@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ImagesService {
-baseUrl='https://pcv.pythonanywhere.com/api/';
+// baseUrl='https://pcv.pythonanywhere.com/api/';
 // url='http://192.168.29.78:8000/api/multiple-images/'
-apiUrl='http://192.168.29.78:8000/api/'
+// apiUrl='http://192.168.29.78:8000/api/'
+
+baseUrl=environment.baseUrl 
 
   constructor(private http:HttpClient) { }
+
+  getData(vinNumber: string): Observable<any> {
+    return this.http.get<any>(`https://pcv.pythonanywhere.com/api/scan/${vinNumber}/`);
+  }
 
   getFRWheelImages(){
   
@@ -161,7 +168,7 @@ apiUrl='http://192.168.29.78:8000/api/'
   getAllImages(vinNumber: string, images: any[]): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = JSON.stringify({ vin: vinNumber, images: images });
-    return this.http.post(this.apiUrl + 'multiple-images/', body, { headers: headers });
+    return this.http.post(this.baseUrl + 'multiple-images/', body, { headers: headers });
   }
   
 

@@ -5,6 +5,7 @@ import { ImagesService } from 'src/app/services/images.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 interface TotalTabs{
   [key: string]: number;
@@ -17,8 +18,8 @@ interface TotalTabs{
 })
 export class DashboardAfterScanComponent implements OnInit ,AfterViewInit{
 // baseUrl=`https://pcv.pythonanywhere.com/api`
-baseUrl=`http://192.168.29.78:8000/api`
-
+// baseUrl=`http://192.168.29.78:8000/api`
+baseUrl=environment.baseUrl
 vinNumber:any
 data:any;
 wheelData:any[]=[];
@@ -36,7 +37,7 @@ lightData:any[]=[];
 
 
 constructor(private activeRoute:ActivatedRoute,private http:HttpClient,
-  private router:Router,private image:ImagesService,
+  private router:Router,private imageService:ImagesService,
   private snackBar: MatSnackBar){
   
   }
@@ -51,14 +52,14 @@ ngOnInit(): void {
     this.vinNumber =  this.activeRoute.snapshot.params['vinNumber']
    
     console.log(this.wheelData)
-    // this.http.get(`https://pcv.pythonanywhere.com/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
+    this.imageService.getData(this.vinNumber).subscribe((res: any) => {
+      console.log("response", res);
+      this.data=res.data
+    });
+    // this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
     //   console.log("response", res)
     //   this.data=res.data;
     // })
-    this.http.get(`http://192.168.29.78:8000/api/scan/${this.vinNumber}/`).subscribe((res:any)=>{
-      console.log("response", res)
-      this.data=res.data;
-    })
   
 }
 
@@ -80,25 +81,25 @@ loadImages(){
 
 //Front Left
 getwindowImages(){
-  this.image.getFLWindowImages().subscribe((data:any)=>{
+  this.imageService.getFLWindowImages().subscribe((data:any)=>{
     this.windowData=data.WindowImages;
     console.log(this.windowData)
   })
 }
 getdoorImages(){
-this.image.getFLDoorImages().subscribe((data:any)=>{
+this.imageService.getFLDoorImages().subscribe((data:any)=>{
   this.doorData=data.DoorImages;
   console.log(this.doorData)
 })
 }
 getdoorHandleImages(){
-this.image.getFLHandleImages().subscribe((data:any)=>{
+this.imageService.getFLHandleImages().subscribe((data:any)=>{
   this.handleData=data.DoorHandleImages;
   console.log(this.handleData)
 })
 }
 getHubCapImages(){
-this.image.getFLCapImages().subscribe((data:any)=>{
+this.imageService.getFLCapImages().subscribe((data:any)=>{
   this.hubcapData=data.LogoImages;
   console.log(this.hubcapData)
 })
@@ -106,21 +107,21 @@ this.image.getFLCapImages().subscribe((data:any)=>{
 //Front Right
   getwheelImages(){
 
-    this.image.getFRWheelImages().subscribe((data:any)=>{   
+    this.imageService.getFRWheelImages().subscribe((data:any)=>{   
       this.wheelData=data.WheelImages;
       console.log(this.wheelData)
     });
   }
 
   getroofImages(){
-    this.image.getFRRoofImages().subscribe((data:any)=>{
+    this.imageService.getFRRoofImages().subscribe((data:any)=>{
       this.roofData=data.RoofImages;
       console.log(this.roofData)
     })
   }
 
   getMirrorImages(){
-    this.image.getFRMirrorImages().subscribe((data:any)=>{
+    this.imageService.getFRMirrorImages().subscribe((data:any)=>{
       this.mirrorData=data.OutSideMirrorImages;
       console.log(this.mirrorData)
     })
@@ -128,34 +129,34 @@ this.image.getFLCapImages().subscribe((data:any)=>{
 
 //Rear right
   getlogoImages(){
-    this.image.getRRLogoImages().subscribe((data:any)=>{
+    this.imageService.getRRLogoImages().subscribe((data:any)=>{
       this.logoData=data.LogoImages;
       console.log(this.logoData)
     })
   }
    
   getwiperImages(){
-    this.image.getRRWiperImages().subscribe((data:any)=>{
+    this.imageService.getRRWiperImages().subscribe((data:any)=>{
       this.wiperData=data.WiperImages;
       console.log(this.wiperData)
     })
   }
 
 gethoodImages(){
-  this.image.getRRHoodImages().subscribe((data:any)=>{
+  this.imageService.getRRHoodImages().subscribe((data:any)=>{
     this.hoodData=data.HoodImages;
     console.log(this.hoodData)
   })
 }
 //Rear left
 gettrunkImages(){
-  this.image.getRLTrunkImages().subscribe((data:any)=>{
+  this.imageService.getRLTrunkImages().subscribe((data:any)=>{
     this.trunkData=data.TrunkImages;
     console.log(this.trunkData)
   })
 }
 getlightImages(){
-  this.image.getRLLightImages().subscribe((data:any)=>{
+  this.imageService.getRLLightImages().subscribe((data:any)=>{
     this.lightData=data.TailLightImages;
     console.log(this.lightData)
   })
@@ -397,7 +398,7 @@ showMissingImages: boolean = false;
 missingImages: string[] = []; 
 
 Validate() {
-  this.image.getAllImages(this.vinNumber,this.selectedImagesAll).subscribe(
+  this.imageService.getAllImages(this.vinNumber,this.selectedImagesAll).subscribe(
  (response:any) => {
         if(response.status =='OK'){
           Swal.fire({
