@@ -4,6 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { ImagesService } from 'src/app/services/images.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+interface TotalTabs{
+  [key: string]: number;
+}
 
 @Component({
   selector: 'app-dashboard-after-scan',
@@ -31,7 +36,8 @@ lightData:any[]=[];
 
 
 constructor(private activeRoute:ActivatedRoute,private http:HttpClient,
-  private router:Router,private image:ImagesService,){
+  private router:Router,private image:ImagesService,
+  private snackBar: MatSnackBar){
   
   }
   ngAfterViewInit(): void {
@@ -165,6 +171,12 @@ getlightImages(){
   lastSelectedTab: number = 1;
   visitedTabs: Set<number> = new Set();
   
+  totalTabs: TotalTabs = {
+    FrontLeft:4,
+    FrontRight: 3,
+    RearLeft: 2,
+    RearRight: 3
+  };
   // Update isSelected method to handle different buttons
   isSelected(img: any, tab: number): boolean {
     let selectedImagesArray;
@@ -191,6 +203,70 @@ getlightImages(){
     return selectedImagesArray.some(selectedImg => selectedImg.image === img.image && selectedImg.tab === tab);
   }
   
+  // onImageSelected(selectedImage: any, tab: number) {
+  //   let selectedImagesArray;
+    
+  //   // Determine which array to use based on the active button
+  //   switch (this.activeButton) {
+  //     case 'FrontLeft':
+  //       selectedImagesArray = this.selectedImagesFrontLeft;
+  //       break;
+  //     case 'FrontRight':
+  //       selectedImagesArray = this.selectedImagesFrontRight;
+  //       break;
+  //     case 'RearLeft':
+  //       selectedImagesArray = this.selectedImagesRearLeft;
+  //       break;
+  //     case 'RearRight':
+  //       selectedImagesArray = this.selectedImagesRearRight;
+  //       break;
+  //     default:
+  //       return; // If activeButton is unknown, do nothing
+  //   }
+    
+  //  // Clear selection in the current tab
+  //  selectedImagesArray = selectedImagesArray.filter(img => img.tab !== tab);
+
+  //  // Add the new selection
+  //  selectedImagesArray.push({ ...selectedImage, tab, selected: true });
+  
+  //   // Update the selected images array based on the active button
+  //   this.updateSelectedImages(selectedImagesArray);
+    
+  //   // Dynamically determine the next tab based on the current active tab and total tabs
+  //   const totalTabsForSection = this.totalTabs[this.activeButton];
+  //   const nextTab = tab + 1;
+  
+  //   // Check if there's a next tab and automatically switch to it
+  //   if (nextTab <= totalTabsForSection) {
+  //     // Set a small timeout to ensure the checkbox gets updated before switching to the next tab
+  //     setTimeout(() => {
+  //       this.activeDiv = nextTab;
+  //     }, 200); // You can adjust the timeout value as needed
+  //   }
+  // }
+  
+  
+  // updateSelectedImages(selectedImagesArray: any[]) {
+  //   // Update the selected images array based on the active button
+  //   switch (this.activeButton) {
+  //     case 'FrontLeft':
+  //       this.selectedImagesFrontLeft = selectedImagesArray;
+  //       break;
+  //     case 'FrontRight':
+  //       this.selectedImagesFrontRight = selectedImagesArray;
+  //       break;
+  //     case 'RearLeft':
+  //       this.selectedImagesRearLeft = selectedImagesArray;
+  //       break;
+  //     case 'RearRight':
+  //       this.selectedImagesRearRight = selectedImagesArray;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
+
   onImageSelected(selectedImage: any, tab: number) {
     let selectedImagesArray;
   
@@ -245,6 +321,20 @@ getlightImages(){
     }
   
     this.visitedTabs.add(tab);
+
+
+   // Dynamically determine the next tab based on the current active tab and total tabs
+   const totalTabsForSection = this.totalTabs[this.activeButton];
+   const nextTab = tab + 1;
+ 
+   // Check if there's a next tab and automatically switch to it
+   if (nextTab <= totalTabsForSection) {
+     // Set a small timeout to ensure the checkbox gets updated before switching to the next tab
+     setTimeout(() => {
+       this.activeDiv = nextTab;
+     }, 200); // You can adjust the timeout value as needed
+   }
+
   }
   
 
@@ -318,7 +408,6 @@ Validate() {
             showCancelButton: true,
             showConfirmButton: true,
           
-            width:'20rem',
         }).then((confirmation) => {
             if (confirmation.isConfirmed) {
             this.router.navigate(['/','dashboard'])
@@ -338,7 +427,7 @@ Validate() {
             cancelButtonText: 'Cancel',
             showCancelButton: true,
             showConfirmButton: true,
-            width: '20rem',
+        
        
           }).then((confirmation) => {
             if (confirmation.isConfirmed) {
@@ -372,17 +461,13 @@ this.activeDiv=1;
             this.isFrontRightDisabled = true;             
             break;
         case 'RearLeft':  
-          
-            this.isButtonDivVisible = !this.isButtonDivVisible;
-                this.isRearLeftDisabled = true;
-             
-                break;
+            this.isButtonDivVisible =!this.isButtonDivVisible;
+            this.isRearLeftDisabled = true;
+            break;
                          
         case 'RearRight':
- 
             this.isButtonDivVisible = !this.isButtonDivVisible;
-            this.isRearRightDisabled = true;
-         
+            this.isRearRightDisabled = true;         
             break; 
   
                  
@@ -391,21 +476,6 @@ this.activeDiv=1;
     }
 }
 
-validationCheck(){
-  Swal.fire({
-    title: '',
-    text: 'Car have completed all complexity validation check',
-    icon: 'success',
-    confirmButtonText: 'Ok',
-    cancelButtonText: 'Cancel',
-    showCancelButton: true,
-    showConfirmButton: true
-}).then((confirmation) => {
-    if (confirmation.isConfirmed) {
-  this.router.navigate(['/','dashboard'])
-  }
-})
-}
 
 activeButton: string = '';
 
@@ -423,7 +493,7 @@ toggleDivs(button: string) {
             this.isFrontRightDisabled = true; 
               
             break;
-            case 'RearLeft':
+        case 'RearLeft':
               this.isButtonDivVisible = !this.isButtonDivVisible;
               this.isRearLeftDisabled = true;
           
@@ -435,10 +505,7 @@ toggleDivs(button: string) {
             break; 
         case 'Submit':
               this.isButtonDivVisible = !this.isButtonDivVisible;
-              break;
-        case 'Vaildate':
-              this.isButtonDivVisible = !this.isButtonDivVisible;
-              break;    
+              break;   
         default:
             break;
     }
@@ -450,8 +517,12 @@ switchDiv(divNumber: number) {
   const imagesSelected = this.checkIfImageSelected();
   if (!imagesSelected) {
     // Display a message if no image is selected
-    alert("Please select an image before switching tabs.");
-    return; 
+    this.snackBar.open('Please select an image before switching tabs.', 'Close', {
+      duration: 4000, 
+      verticalPosition: 'top',
+      // panelClass: ['error-snackbar'], 
+    });
+    return
   }
   // Update the active tab
   this.activeDiv = divNumber;
@@ -463,9 +534,14 @@ nextTab() {
 
   if (!imagesSelected) {
       // If no image is selected, display an alert
-      alert("Please select an image before moving to the next tab.");
+      this.snackBar.open('Please select an image before switching tabs.', 'Close', {
+        duration: 4000, 
+        verticalPosition: 'top',
+        panelClass: ['error-snackbar'], 
+      });
       return; 
   }
+
   if (this.activeDiv < 5) { 
       this.activeDiv++;
   }

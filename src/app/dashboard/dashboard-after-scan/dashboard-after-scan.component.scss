@@ -1,5 +1,5 @@
 @mixin for-desktop {
-  @media (max-width: 1440px) {
+  @media (max-width: 1024px) {
     @content;
   }
 }
@@ -9,14 +9,19 @@
   }
 }
 
-.container{
-  height:100vh;
-  width: 100%;
+
+
+
+.container{ 
   display: flex;
   flex-direction: column;
   align-items: center;
     //justify-content: center;
-  
+  @include for-tab(){
+    height:100vh;
+    width:100%;
+  }
+
   .title{
  
       display: flex;
@@ -27,7 +32,7 @@
       @include for-tab(){
         padding: 0.5rem;
       }
-  
+    
   }
 
   .content{
@@ -42,9 +47,7 @@
     width: 52rem;
     @include for-tab(){
       width:44rem;
-      padding: 0.5rem;
-
-  
+      padding: 0.5rem;  
     }
     .custom-card {
       width:13rem;
@@ -109,7 +112,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
   @include for-tab(){
-    //padding:1rem;s
+    //padding:1rem;
   
   }
  
@@ -187,6 +190,7 @@ button[disabled] {
     padding: 0.5rem;
     
   }
+  
   .img-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
@@ -196,6 +200,7 @@ button[disabled] {
     
     @include for-tab(){
       column-gap: 3px;
+      max-height: 300px; 
     }
    
       img{
@@ -209,6 +214,7 @@ button[disabled] {
           height:130px;           
          
         }
+    
     }
 
     .imgcontent {
@@ -258,6 +264,7 @@ button[disabled] {
     padding: 1rem;
     @include for-tab(){
       padding:0.5rem;
+
       gap:31rem;
     }
     button{
@@ -267,6 +274,7 @@ button[disabled] {
         width:3.5rem;
         height:2rem; 
       }
+    
     }
   }
 
@@ -313,6 +321,7 @@ button[disabled] {
           height:130px;
           border: 1px solid black;
         }
+    
       }
       .imgcontent {
         position: relative;
@@ -335,6 +344,7 @@ button[disabled] {
           height:132px;
           border: 2px solid green;
          }
+       
         }
       }
       
@@ -354,10 +364,11 @@ button[disabled] {
   @include for-tab(){
     padding:0.3rem;
   }
+
   button{
     width:8rem;
     @include for-tab(){
-      width:7rem;
+      width:6rem;
     }
   }
  }
@@ -366,3 +377,7 @@ button[disabled] {
 }  
 
 
+.error-snackbar {
+  background-color: #ff4d4f; /* Red background color */
+  color: #fff; /* White text color */
+}

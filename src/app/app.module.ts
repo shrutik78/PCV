@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +16,9 @@ import { ReactiveFormsModule,FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DashboardModule,RouterModule, BrowserAnimationsModule,HttpClientModule,ReactiveFormsModule,FormsModule
+    DashboardModule,RouterModule, BrowserAnimationsModule,HttpClientModule,ReactiveFormsModule,FormsModule,
+    MatSnackBarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
