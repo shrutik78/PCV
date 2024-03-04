@@ -9,21 +9,17 @@
   }
 }
 
-
-
-
 .container{ 
   display: flex;
   flex-direction: column;
   align-items: center;
-    //justify-content: center;
+
   @include for-tab(){
     height:100vh;
     width:100%;
   }
 
-  .title{
- 
+  .title{ 
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -35,9 +31,8 @@
     
   }
 
-  .content{
-  
-   display: flex;
+  .content{  
+    display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1.5rem;
@@ -51,17 +46,17 @@
     }
     .custom-card {
       width:13rem;
-      margin-bottom: 1rem; /* Adjust margin as needed */
-      background-color: #fff; /* Card background color */
-      border-radius: 0.5rem; /* Rounded corners */
-      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3); /* Shadow */
+      margin-bottom: 1rem; 
+      background-color: #fff; 
+      border-radius: 0.5rem; 
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3); 
       @include for-tab(){
         width:11rem;
       }
     }
     
     .custom-card mat-card-content {
-      padding: 1rem; /* Padding inside the card */
+      padding: 1rem;
       p{
         font-size:1rem;
         font-weight: 500;
@@ -84,36 +79,13 @@
       }
     }
 
-
-    // .controls{
-    //   display: grid;
-    //   grid-template-columns: auto auto ;
-    //   justify-content: center;
-    //   gap: 2rem;
-    //   padding: 2rem;
-    //   width: 100%;
-    //   button{
-    //     padding: 1rem;
-    //     font-size: 1.5rem;
-    //     width:20rem;
-    //     @include for-tab(){
-    //       padding: 1rem;
-    //       font-size: 1.5rem;
-    //       width:20rem;
-    //     }
-    //   }
-    // }
-
     /* Style for the button container */
 .controls {
-  // display: grid;
-  // grid-template-columns: repeat(2, 1fr); /* Two columns */
 display: flex;
 flex-direction: column;
 justify-content: center;
   @include for-tab(){
-    //padding:1rem;
-  
+        //padding:1rem;  
   }
  
   .buttons{
@@ -159,11 +131,7 @@ button[disabled] {
   background-color: #cccccc; /* Grey */
   cursor: not-allowed;
 }
- 
-
 }
-
-
 }
 
 .sub-content{
@@ -181,16 +149,12 @@ button[disabled] {
 
   .tabs {
     display: flex;
-    // flex-direction: column;
     width: 100%;
     justify-content: space-evenly;
     padding:2rem;
-    // border-bottom: 1px #d42836 solid;
   @include for-tab(){
-    padding: 0.5rem;
-    
-  }
-  
+    padding: 0.5rem;    
+  } 
   .img-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
@@ -201,8 +165,7 @@ button[disabled] {
     @include for-tab(){
       column-gap: 3px;
       max-height: 300px; 
-    }
-   
+    }   
       img{
         width: 180px;
         height:150px;
@@ -219,16 +182,10 @@ button[disabled] {
 
     .imgcontent {
       position: relative;
-      // height:176px;
-      // width:176px;
-      // border: 1px solid #202020; 
     }
   }
     .tabContent {
-      // background-color: #c0bebf;
-      // border-radius: 50%;
-      color:#007bff; ;
-      // margin: 10px;
+      color:#007bff;
       position: relative;
       font-size: 1.3rem;
       font-weight: 500;
@@ -259,7 +216,6 @@ button[disabled] {
   }
   .controller{
     display: flex;
-  // justify-content: space-evenly;
     gap: 42rem;
     padding: 1rem;
     @include for-tab(){
@@ -291,7 +247,6 @@ button[disabled] {
   .show {
     display: flex;
     flex-wrap: wrap;
-    // flex-direction: column;
     justify-content: space-between;
     gap:0.3rem;
     .img-grid {
@@ -375,9 +330,3 @@ button[disabled] {
 }
 }
 }  
-
-
-.error-snackbar {
-  background-color: #ff4d4f; /* Red background color */
-  color: #fff; /* White text color */
-}
