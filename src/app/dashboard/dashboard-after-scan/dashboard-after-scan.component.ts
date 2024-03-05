@@ -398,52 +398,63 @@ showMissingImages: boolean = false;
 missingImages: string[] = []; 
 
 Validate() {
-  this.imageService.getAllImages(this.vinNumber,this.selectedImagesAll).subscribe(
- (response:any) => {
-        if(response.status =='OK'){
-          Swal.fire({
-            title: '',
-            text: 'Car have completed all complexity validation check',
-            icon: 'success',
-            confirmButtonText: 'Submit',
-            showCancelButton: true,
-            showConfirmButton: true,
-          
+  this.imageService.getAllImages(this.vinNumber, this.selectedImagesAll).subscribe(
+    (response: any) => {
+      if (response.status == 'OK') {
+        Swal.fire({
+          title: '',
+          text: 'Car has completed all complexity validation checks.',
+          icon: 'success',
+          confirmButtonText: 'Submit',
+          showCancelButton: true,
+          showConfirmButton: true,
         }).then((confirmation) => {
-            if (confirmation.isConfirmed) {
-            this.router.navigate(['/','dashboard'])
+          if (confirmation.isConfirmed) {
+            console.log('User clicked Submit');
+            this.printMessage('OK', this.vinNumber); // Call the printMessage function with VIN number
+            this.router.navigate(['/','dashboard']);
           }
-        })
-          console.log('Images submitted successfully:', response);
-        }
-       
-        else if (response.status == 'NOT OK') {
-          this.missingImages = response.missing_images;
-
-          Swal.fire({
-            title: '',
-            html: `Not completed complexity validation check. <br/>`,
-            icon: 'error',
-            confirmButtonText: 'Ok',
-            cancelButtonText: 'Cancel',
-            showCancelButton: true,
-            showConfirmButton: true,
-        
-       
-          }).then((confirmation) => {
-            if (confirmation.isConfirmed) {
-              // Set showMissingImages to true when user clicks OK
-              this.showMissingImages = true;
-            }
-          });
-        }
-      },
-      error => {
-
-        console.error('Error submitting images:', error);
+        });
+        console.log('Images submitted successfully:', response);
+      } else if (response.status == 'NOT OK') {
+        this.missingImages = response.missing_images;
+        Swal.fire({
+          title: '',
+          html: `Not completed complexity validation check. <br/>`,
+          icon: 'error',
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          showCancelButton: true,
+          showConfirmButton: true,
+        }).then((confirmation) => {
+          if (confirmation.isConfirmed) {
+            // Set showMissingImages to true when the user clicks OK
+            this.showMissingImages = true;
+          }
+        });
       }
-    );
+    },
+    (error) => {
+      console.error('Error submitting images:', error);
+    }
+  );
 }
+
+printMessage(message: string, vinNumber: string) {
+  const printContent = document.createElement('div');
+  printContent.style.textAlign = 'center';
+  printContent.style.margin = 'auto';
+  printContent.innerHTML = `
+    <div>${vinNumber}</div>
+    <br><br>
+    <div><h1>${message}</h1></div>
+  `;
+  document.body.appendChild(printContent);
+  window.print();
+  document.body.removeChild(printContent);
+}
+
+
 
 submit(){
   return this.router.navigate(['dashboard'])
