@@ -25,9 +25,16 @@
           <b><p style="font-size: 1.3rem;"> {{data.vehicle_model}}</p></b>
         </mat-card-content>
       </mat-card>
+
+      <mat-card class="custom-card">
+        <mat-card-content>
+          <b><p>Vehicle Brand </p></b>
+          <b><p style="font-size: 1.3rem;"> {{data.vehicle_brand}}</p></b>
+        </mat-card-content>
+      </mat-card>
     </section>
 
-      <section>
+      <!-- <section>
         <mat-card class="custom-card">
           <mat-card-content>
             <b><p>Vehicle Brand </p></b>
@@ -47,7 +54,7 @@
           <b><p style="font-size: 1.3rem;"> {{data.vehicle_brand}}</p></b>
         </mat-card-content>
       </mat-card>
-    </section>
+    </section> -->
 
     <!-- <section>
       <mat-form-field appearance="fill">
@@ -190,10 +197,10 @@
     <h2 >Selected Images - Front Left</h2>
       <div class="img-grid">
         <div *ngFor="let img of selectedImagesFrontLeft" class="imgcontent">
-          <img [src]="baseUrl + img.image" alt="">
+          <img src="{{baseUrl + img.image}}" alt="">
         </div>
+      </div> 
       </div>
-    </div>  
   </div>
   
 
@@ -236,7 +243,7 @@
       <h2>Selected Images - Front Right</h2>
       <div class="img-grid">
         <div *ngFor="let img of selectedImagesFrontRight" class="imgcontent">
-          <img [src]="baseUrl + img.image" alt="">
+          <img src="{{baseUrl + img.image}}" alt="">
         </div>
       </div>
     </div>
@@ -268,7 +275,7 @@
     <h2>Selected Images - Rear Left</h2>
     <div class="img-grid">
       <div *ngFor="let img of selectedImagesRearLeft" class="imgcontent">
-        <img [src]="baseUrl + img.image" alt="">
+        <img src="{{baseUrl + img.image}}" alt="">
       </div>
     </div>
   </div>
@@ -309,7 +316,7 @@
     <h2>Selected Images - Rear Right</h2>
     <div class="img-grid">
       <div *ngFor="let img of selectedImagesRearRight" class="imgcontent">
-        <img [src]="baseUrl + img.image" alt="">
+        <img src="{{baseUrl + img.image}}" alt="">
       </div>
     </div>
   </div>

@@ -232,24 +232,6 @@ getlightImages(){
   //  selectedImagesArray.push({ ...selectedImage, tab, selected: true });
   
   //   // Update the selected images array based on the active button
-  //   this.updateSelectedImages(selectedImagesArray);
-    
-  //   // Dynamically determine the next tab based on the current active tab and total tabs
-  //   const totalTabsForSection = this.totalTabs[this.activeButton];
-  //   const nextTab = tab + 1;
-  
-  //   // Check if there's a next tab and automatically switch to it
-  //   if (nextTab <= totalTabsForSection) {
-  //     // Set a small timeout to ensure the checkbox gets updated before switching to the next tab
-  //     setTimeout(() => {
-  //       this.activeDiv = nextTab;
-  //     }, 200); // You can adjust the timeout value as needed
-  //   }
-  // }
-  
-  
-  // updateSelectedImages(selectedImagesArray: any[]) {
-  //   // Update the selected images array based on the active button
   //   switch (this.activeButton) {
   //     case 'FrontLeft':
   //       this.selectedImagesFrontLeft = selectedImagesArray;
@@ -269,76 +251,75 @@ getlightImages(){
   // }
 
   onImageSelected(selectedImage: any, tab: number) {
-    let selectedImagesArray;
+    let selectedImagesArray = this.getSelectedImagesArray();
   
-    // Determine which array to use based on the active button
-    switch (this.activeButton) {
-      case 'FrontLeft':
-        selectedImagesArray = this.selectedImagesFrontLeft;
-        break;
-      case 'FrontRight':
-        selectedImagesArray = this.selectedImagesFrontRight;
-        break;
-      case 'RearLeft':
-        selectedImagesArray = this.selectedImagesRearLeft;
-        break;
-      case 'RearRight':
-        selectedImagesArray = this.selectedImagesRearRight;
-        break;
-      default:
-        return; // If activeButton is unknown, do nothing
-    }
-  
-    // Unselect previously selected images in the same tab
     selectedImagesArray = selectedImagesArray.filter(img => img.tab !== tab);
   
-    // Check if the image is already selected
     const index = selectedImagesArray.findIndex(img => img.image === selectedImage.image && img.tab === tab);
   
     if (index !== -1) {
-      // If already selected, remove it
-      selectedImagesArray.splice(index, 1);
+        selectedImagesArray.splice(index, 1);
     } else {
-      // If not selected, add it
-      selectedImagesArray.push({ ...selectedImage, tab, selected: true });
+        selectedImagesArray.push({ ...selectedImage, tab, selected: true });
     }
   
-    // Update the selected images array based on the active button
-    switch (this.activeButton) {
-      case 'FrontLeft':
-        this.selectedImagesFrontLeft = selectedImagesArray;
-        break;
-      case 'FrontRight':
-        this.selectedImagesFrontRight = selectedImagesArray;
-        break;
-      case 'RearLeft':
-        this.selectedImagesRearLeft = selectedImagesArray;
-        break;
-      case 'RearRight':
-        this.selectedImagesRearRight = selectedImagesArray;
-        break;
-      default:
-        break;
-    }
+    this.updateSelectedImagesArray(selectedImagesArray);
   
     this.visitedTabs.add(tab);
-
-
-   // Dynamically determine the next tab based on the current active tab and total tabs
-   const totalTabsForSection = this.totalTabs[this.activeButton];
-   const nextTab = tab + 1;
- 
-   // Check if there's a next tab and automatically switch to it
-   if (nextTab <= totalTabsForSection) {
-     // Set a small timeout to ensure the checkbox gets updated before switching to the next tab
-     setTimeout(() => {
-       this.activeDiv = nextTab;
-     }, 200); // You can adjust the timeout value as needed
-   }
-
-  }
+    this.changedTab = tab;
   
+    const totalTabsForSection = this.totalTabs[this.activeButton];
+    const nextTab = tab + 1;
+  
+    if (nextTab <= totalTabsForSection) {
+        setTimeout(() => {
+            this.activeDiv = nextTab;
+        }, 200);
+    } 
+}
 
+ getSelectedImagesArray(): any[] {
+    switch (this.activeButton) {
+        case 'FrontLeft':
+            return this.selectedImagesFrontLeft;
+        case 'FrontRight':
+            return this.selectedImagesFrontRight;
+        case 'RearLeft':
+            return this.selectedImagesRearLeft;
+        case 'RearRight':
+            return this.selectedImagesRearRight;
+        default:
+            return [];
+    }
+}
+
+updateSelectedImagesArray(selectedImagesArray: any[]) {
+    switch (this.activeButton) {
+        case 'FrontLeft':
+            this.selectedImagesFrontLeft = selectedImagesArray;
+            break;
+        case 'FrontRight':
+            this.selectedImagesFrontRight = selectedImagesArray;
+            break;
+        case 'RearLeft':
+            this.selectedImagesRearLeft = selectedImagesArray;
+            break;
+        case 'RearRight':
+            this.selectedImagesRearRight = selectedImagesArray;
+            break;
+        default:
+            break;
+    }
+}
+
+  
+  // else {
+    //   // If it's the last tab, switch to the end tab
+    //   setTimeout(() => {
+    //     this.activeDiv = this.totalTabs[this.activeButton]; // Switch to the end tab
+    //     this.onSubmit();
+    //   }, 200); // You can adjust the timeout value as needed
+    // }
 isSubmitted: boolean = false;
 isFrontLeftDisabled: boolean = false;
 isFrontRightDisabled: boolean = false;
@@ -444,6 +425,7 @@ printMessage(message: string, vinNumber: string) {
   const printContent = document.createElement('div');
   printContent.style.textAlign = 'center';
   printContent.style.margin = 'auto';
+  printContent.style.maxWidth = '80%';
   printContent.innerHTML = `
     <div>${vinNumber}</div>
     <br><br>
@@ -591,5 +573,22 @@ back(){
     }
 }
 
+changedTab:any;
+// back() {
+//   // If back is clicked after changing the selected image in a particular tab,
+//   // Navigate back to that tab and then proceed to the last tab
+//   if (this.changedTab) {
+//     this.activeDiv = this.changedTab;
+//     this.changedTab = null;
+//   } else {
+//     // If back is clicked without changing the selected image in a particular tab,
+//     // Navigate to the previous tab or loop back to the last tab if on the first tab
+//     if (this.activeDiv === 1) {
+//       this.activeDiv = this.totalTabs[this.activeButton];
+//     } else {
+//       this.activeDiv--;
+//     }
 
+//   }
+// }
 }
