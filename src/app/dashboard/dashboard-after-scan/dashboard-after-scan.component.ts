@@ -276,6 +276,9 @@ getlightImages(){
             this.activeDiv = nextTab;
         }, 200);
     } 
+    // else {
+    //   this.onSubmit();
+    // }
 }
 
  getSelectedImagesArray(): any[] {
@@ -522,24 +525,24 @@ switchDiv(divNumber: number) {
   this.activeDiv = divNumber;
 }
 
-nextTab() {
-  // Check if there are selected images for the current tab
-  const imagesSelected = this.checkIfImageSelected();
+// nextTab() {
+//   // Check if there are selected images for the current tab
+//   const imagesSelected = this.checkIfImageSelected();
 
-  if (!imagesSelected) {
-      // If no image is selected, display an alert
-      this.snackBar.open('Please select an image before switching tabs.', 'Close', {
-        duration: 4000, 
-        verticalPosition: 'top',
-        panelClass: ['error-snackbar'], 
-      });
-      return; 
-  }
+//   if (!imagesSelected) {
+//       // If no image is selected, display an alert
+//       this.snackBar.open('Please select an image before switching tabs.', 'Close', {
+//         duration: 4000, 
+//         verticalPosition: 'top',
+//         panelClass: ['error-snackbar'], 
+//       });
+//       return; 
+//   }
 
-  if (this.activeDiv < 5) { 
-      this.activeDiv++;
-  }
-}
+//   if (this.activeDiv < 5) { 
+//       this.activeDiv++;
+//   }
+// }
 
 
 checkIfImageSelected(): boolean {
@@ -566,29 +569,53 @@ checkIfImageSelected(): boolean {
   return selectedImagesArray.some(img => img.tab === this.activeDiv);
 }
 
-back(){
-    this.activeDiv--
-    if(this.activeDiv<1){
-      this.activeDiv=5
-    }
-}
 
-changedTab:any;
-// back() {
-//   // If back is clicked after changing the selected image in a particular tab,
-//   // Navigate back to that tab and then proceed to the last tab
-//   if (this.changedTab) {
-//     this.activeDiv = this.changedTab;
-//     this.changedTab = null;
-//   } else {
-//     // If back is clicked without changing the selected image in a particular tab,
-//     // Navigate to the previous tab or loop back to the last tab if on the first tab
-//     if (this.activeDiv === 1) {
-//       this.activeDiv = this.totalTabs[this.activeButton];
-//     } else {
-//       this.activeDiv--;
-//     }
+// back(decrementBy: number) {
+//   this.activeDiv -= decrementBy;
+//   if (this.activeDiv < 1) {
+//     this.activeDiv = 4;
+//   }
+//   console.log("Active Div:", this.activeDiv);
+// }
 
+// checkIfAllImagesSelected(): boolean {
+//   switch (this.activeButton) {
+//     case 'FrontLeft':
+//       return this.checkIfImagesSelected(this.selectedImagesFrontLeft);
+//     case 'FrontRight':
+//       return this.checkIfImagesSelected(this.selectedImagesFrontRight);
+//     case 'RearLeft':
+//       return this.checkIfImagesSelected(this.selectedImagesRearLeft);
+//     case 'RearRight':
+//       return this.checkIfImagesSelected(this.selectedImagesRearRight);
+//     default:
+//       return false;
 //   }
 // }
+
+// checkIfImagesSelected(images: any[]): boolean {
+//   return images.every(img => img.tab !== this.activeDiv);
+// }
+
+
+changedTab:any;
+back() {
+  // If back is clicked after changing the selected image in a particular tab,
+  // Navigate back to that tab and then proceed to the last tab
+  if (this.changedTab) {
+    this.activeDiv = this.changedTab;
+    this.changedTab = null;
+  } 
+  else {
+    // If back is clicked without changing the selected image in a particular tab,
+    // Navigate to the previous tab or loop back to the last tab if on the first tab
+    if (this.activeDiv === 1) {
+      this.activeDiv = this.totalTabs[this.activeButton];
+    } else {
+      this.activeDiv--;
+    }
+
+  }
+}
+
 }
