@@ -303,17 +303,20 @@ button[disabled] {
 
         }
     
-        &.selected {
-          width:182px;
-          height:152px;
-          border: 2px solid green;
-         @include for-tab(){
-          width:132px;
-          height:132px;
-          border: 2px solid green;
-         }
+        // &.selected {
+        //   width:182px;
+        //   height:152px;
+        //   border: 2px solid green;
+        //  @include for-tab(){
+        //   width:132px;
+        //   height:132px;
+        //   border: 2px solid green;
+        //  }
        
-        }
+        // }
+
+       
+
       }
       
   }

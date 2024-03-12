@@ -252,7 +252,6 @@ getlightImages(){
 
   onImageSelected(selectedImage: any, tab: number) {
     let selectedImagesArray = this.getSelectedImagesArray();
-  
     selectedImagesArray = selectedImagesArray.filter(img => img.tab !== tab);
   
     const index = selectedImagesArray.findIndex(img => img.image === selectedImage.image && img.tab === tab);
@@ -278,6 +277,24 @@ getlightImages(){
     } 
  
 }
+
+onCheckboxChange(event: any, selectedImage: any, tab: number) {
+  const isChecked = event.target.checked;
+
+  if (!isChecked) {
+      this.deselectImage(selectedImage, tab);
+  }
+}
+
+deselectImage(selectedImage: any, tab: number) {
+  let selectedImagesArray = this.getSelectedImagesArray();
+
+  // Remove the selected image from the array
+  selectedImagesArray = selectedImagesArray.filter(img => !(img.image === selectedImage.image && img.tab === tab));
+
+  this.updateSelectedImagesArray(selectedImagesArray);
+}
+
 
  getSelectedImagesArray(): any[] {
     switch (this.activeButton) {
@@ -328,8 +345,8 @@ isRearLeftDisabled: boolean = false;
 isRearRightDisabled: boolean = false; 
 isButtonDivVisible = true;
  selectedImagesArray:any[]=[];
-
  showSelectedImages: boolean = false;
+ 
  onSubmit() {
   this.isSubmitted = true;
   // Determine the appropriate value of activeDiv based on activeButton
@@ -361,7 +378,6 @@ isButtonDivVisible = true;
 
 }
   
-
 isAllButtonsDisabled(): boolean {
   return this.isFrontLeftDisabled && this.isFrontRightDisabled && this.isRearLeftDisabled && this.isRearRightDisabled;
 }
@@ -439,14 +455,15 @@ printMessage(message: string, vinNumber: string) {
 
 
 
-submit(){
+Ok(){
   return this.router.navigate(['dashboard'])
 }
+
 isDoneButtonActive: boolean = false;
 onClick(button:string){
 this.activeButton=button;
 // this.currentActiveDiv = this.getDoneButtonActiveDiv(this.activeButton);
-this.isDoneButtonActive = true;
+// this.isDoneButtonActive = true;
 this.activeDiv=1;
     switch (button) {
         case 'FrontLeft':
@@ -613,26 +630,6 @@ checkIfImagesSelected(images: any[]): boolean {
   return images.every(img => img.tab !== this.activeDiv);
 }
 
-onBackButtonClick() {
-  // Check if an image is selected from each tab before switching to the previous tab
-  const isImageSelected = this.checkIfAllImagesSelected();
-  if (!isImageSelected) {
-    // Display a message if no image is selected in any tab
-    this.snackBar.open('Please select an image before proceeding.', 'Close', {
-      duration: 4000,
-      verticalPosition: 'top',
-      // panelClass: ['error-snackbar'],
-    });
-    return;
-  }
-  
-  // Assuming the back button switches to a previous tab
-  const previousTabNumber = this.activeDiv - 1;
-  this.activeDiv = previousTabNumber;
-}
-
-
-
 
 changedTab:any;
 back() {
@@ -654,6 +651,25 @@ back() {
   }
 }
 
+// back button //
+onBackButtonClick() {
+  // Check if an image is selected from each tab before switching to the previous tab
+  const isImageSelected = this.checkIfAllImagesSelected();
+  if (!isImageSelected) {
+    // Display a message if no image is selected in any tab
+    this.snackBar.open('Please select an image before proceeding.', 'Close', {
+      duration: 4000,
+      verticalPosition: 'top',
+      // panelClass: ['error-snackbar'],
+    });
+    return;
+  }
+  
+  // Assuming the back button switches to a previous tab
+  const previousTabNumber = this.activeDiv - 1;
+  this.activeDiv = previousTabNumber;
+}
+
 checkIfAllImagesSelected(): boolean {
   switch (this.activeButton) {
     case 'FrontLeft':
@@ -672,9 +688,11 @@ checkIfImagesSelectedForTab(images: any[], requiredNumber: number): boolean {
   const selectedImagesCount = images.filter(img => img.tab === this.activeDiv).length;
   return selectedImagesCount === requiredNumber;
 }
-currentActiveDiv: number | null = null;
-showSubmitButton = false;
-doneButtonClicked =false;
+
+
+// currentActiveDiv: number | null = null;
+// showSubmitButton = false;
+// doneButtonClicked =false;
 
 areEnoughImagesSelected(): boolean {
 
@@ -727,35 +745,7 @@ shouldHideSubmitButton(): boolean {
 }
 
 
-getSubmitButtonActiveDiv(activeButton: string): number {
-  switch (activeButton) {
-    case 'FrontLeft':
-      return 4;
-    case 'FrontRight':
-      return 3;
-    case 'RearRight':
-      return 3;
-    case 'RearLeft':
-      return 2;
-    default:
-      return -1; // Or any default value according to your logic
-  }
-}
 
-isSubmitButtonActive(): boolean {
-  switch (this.activeButton) {
-    case 'FrontLeft':
-      return this.activeDiv === 4 && this.areEnoughImagesSelected();
-    case 'FrontRight':
-      return this.activeDiv === 3 && this.areEnoughImagesSelected();
-    case 'RearRight':
-      return this.activeDiv === 3 && this.areEnoughImagesSelected();
-    case 'RearLeft':
-      return this.activeDiv === 2 && this.areEnoughImagesSelected();
-    default:
-      return false; // Or any default value according to your logic
-  }
-}
 
 
 

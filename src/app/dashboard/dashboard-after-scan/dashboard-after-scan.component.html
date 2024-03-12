@@ -157,7 +157,7 @@
   <div class="img-grid">
     <div *ngFor="let img of windowData; let i=index" (click)="onImageSelected(img, 1)" class="imgcontent"  [class.selected]="isSelected(img, 1)">    
         <img src="{{ baseUrl + img.image }}" alt="">
-        <input type="checkbox" [checked]="isSelected(img, 1)"(change)="onImageSelected(img, 1)" >
+        <input type="checkbox" [checked]="isSelected(img, 1)"  (change)="onCheckboxChange($event, img, 1)" >
     </div>
   </div>
 </div>
@@ -168,7 +168,7 @@
   <div class="img-grid">
     <div *ngFor="let img of doorData; let i=index" (click)="onImageSelected(img, 2)" class="imgcontent" [class.selected]="isSelected(img, 2)">
       <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" >
+      <input type="checkbox" [checked]="isSelected(img, 2)"  (change)="onCheckboxChange($event, img, 2)" >
     </div>
   </div>
 </div>
@@ -178,7 +178,7 @@
   <div class="img-grid">
     <div *ngFor="let img of handleData; let i=index" (click)="onImageSelected(img, 3)" class="imgcontent" [class.selected]="isSelected(img, 3)">
       <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" >
+      <input type="checkbox" [checked]="isSelected(img, 3)"  (change)="onCheckboxChange($event, img, 3)">
     </div>
   </div>
 </div>
@@ -186,10 +186,11 @@
   <!-- Content 4 -->
 <div [ngClass]="{'show': activeDiv === 4, 'hide': activeDiv !== 4}" *ngIf=" activeButton ==='FrontLeft'">
   <div class="img-grid">
-    <div *ngFor="let img of hubcapData; let i=index" (click)="onImageSelected(img,4)" class="imgcontent" [class.selected]="isSelected(img, 4)">   
+    <div *ngFor="let img of hubcapData; let i=index" (click)="onImageSelected(img, 4)" class="imgcontent" [class.selected]="isSelected(img, 4)">   
       <img src="{{ baseUrl + img.image }}" alt="">
-      <input type="checkbox" [checked]="isSelected(img, 4)" (change)="onImageSelected(img, 4)" >
-    </div>
+      <input type="checkbox" [checked]="isSelected(img, 4)" (change)="onCheckboxChange($event, img, 4)">
+  </div>
+  
   </div>
   </div>
 
@@ -216,7 +217,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of wheelData; let i=index" (click)="onImageSelected(img,1)" class="imgcontent" [class.selected]="isSelected(img, 1)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" >
+    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onCheckboxChange($event, img, 1)" >
   </div>
   </div>
 </div>
@@ -225,7 +226,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of roofData; let i=index" (click)="onImageSelected(img,2)" class="imgcontent" [class.selected]="isSelected(img, 2)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" >
+    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onCheckboxChange($event, img, 2)">
   </div>
   </div>
 </div>
@@ -234,7 +235,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of mirrorData; let i=index" (click)="onImageSelected(img,3)" class="imgcontent" [class.selected]="isSelected(img, 3)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" >
+    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onCheckboxChange($event, img, 3)" >
   </div>
   </div>
 </div>
@@ -259,7 +260,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of trunkData; let i=index" (click)="onImageSelected(img,1)" class="imgcontent" [class.selected]="isSelected(img, 1)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" >
+    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onCheckboxChange($event, img, 1)" >
   </div>
   </div>
 </div>
@@ -268,7 +269,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of lightData; let i=index" (click)="onImageSelected(img,2)" class="imgcontent" [class.selected]="isSelected(img, 2)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" >
+    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onCheckboxChange($event, img, 2)">
   </div>
   </div>
 </div>
@@ -291,7 +292,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of logoData; let i=index" (click)="onImageSelected(img,1)" class="imgcontent" [class.selected]="isSelected(img, 1)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onImageSelected(img, 1)" >
+    <input type="checkbox" [checked]="isSelected(img, 1)" (change)="onCheckboxChange($event, img, 1)" >
   </div>
   </div>
 </div>
@@ -300,7 +301,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of wiperData; let i=index" (click)="onImageSelected(img,2)" class="imgcontent" [class.selected]="isSelected(img, 2)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onImageSelected(img, 2)" >
+    <input type="checkbox" [checked]="isSelected(img, 2)" (change)="onCheckboxChange($event, img, 2)" >
   </div>
   </div>
 </div>
@@ -309,7 +310,7 @@
   <div class="img-grid">
     <div  *ngFor="let img of hoodData; let i=index" (click)="onImageSelected(img,3)" class="imgcontent" [class.selected]="isSelected(img, 3)">
     <img src="{{ baseUrl + img.image }}" alt="">
-    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onImageSelected(img, 3)" >
+    <input type="checkbox" [checked]="isSelected(img, 3)" (change)="onCheckboxChange($event, img, 3)" >
   </div>
   </div>
 </div>
@@ -360,7 +361,7 @@
 
 
 <button  mat-raised-button color="primary"  *ngIf="activeButton === 'Submit' && !showMissingImages" (click)="Validate()">Validate</button>
-<button  mat-raised-button color="primary"  *ngIf="showMissingImages" (click)="submit()">Ok</button>
+<button  mat-raised-button color="primary"  *ngIf="showMissingImages" (click)="Ok()">Ok</button>
 </div>
 </div>
 </div>
