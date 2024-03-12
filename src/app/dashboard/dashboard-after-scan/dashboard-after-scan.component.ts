@@ -276,9 +276,7 @@ getlightImages(){
             this.activeDiv = nextTab;
         }, 200);
     } 
-    // else {
-    //   this.onSubmit();
-    // }
+ 
 }
 
  getSelectedImagesArray(): any[] {
@@ -444,9 +442,11 @@ printMessage(message: string, vinNumber: string) {
 submit(){
   return this.router.navigate(['dashboard'])
 }
-
+isDoneButtonActive: boolean = false;
 onClick(button:string){
 this.activeButton=button;
+// this.currentActiveDiv = this.getDoneButtonActiveDiv(this.activeButton);
+this.isDoneButtonActive = true;
 this.activeDiv=1;
     switch (button) {
         case 'FrontLeft':
@@ -525,24 +525,24 @@ switchDiv(divNumber: number) {
   this.activeDiv = divNumber;
 }
 
-// nextTab() {
-//   // Check if there are selected images for the current tab
-//   const imagesSelected = this.checkIfImageSelected();
+nextTab() {
+  // Check if there are selected images for the current tab
+  const imagesSelected = this.checkIfImageSelected();
 
-//   if (!imagesSelected) {
-//       // If no image is selected, display an alert
-//       this.snackBar.open('Please select an image before switching tabs.', 'Close', {
-//         duration: 4000, 
-//         verticalPosition: 'top',
-//         panelClass: ['error-snackbar'], 
-//       });
-//       return; 
-//   }
+  if (!imagesSelected) {
+      // If no image is selected, display an alert
+      this.snackBar.open('Please select an image before switching tabs.', 'Close', {
+        duration: 4000, 
+        verticalPosition: 'top',
+        panelClass: ['error-snackbar'], 
+      });
+      return; 
+  }
 
-//   if (this.activeDiv < 5) { 
-//       this.activeDiv++;
-//   }
-// }
+  if (this.activeDiv < 5) { 
+      this.activeDiv++;
+  }
+}
 
 
 checkIfImageSelected(): boolean {
@@ -581,21 +581,57 @@ checkIfImageSelected(): boolean {
 // checkIfAllImagesSelected(): boolean {
 //   switch (this.activeButton) {
 //     case 'FrontLeft':
-//       return this.checkIfImagesSelected(this.selectedImagesFrontLeft);
+//       if (this.activeDiv > 4) {
+//         return true;
+//       } else {
+//         return this.checkIfImagesSelected(this.selectedImagesFrontLeft);
+//       }
 //     case 'FrontRight':
-//       return this.checkIfImagesSelected(this.selectedImagesFrontRight);
+//       if (this.activeDiv > 3) {
+//         return true;
+//       } else {
+//         return this.checkIfImagesSelected(this.selectedImagesFrontRight);
+//       }
 //     case 'RearLeft':
-//       return this.checkIfImagesSelected(this.selectedImagesRearLeft);
+//       if (this.activeDiv > 2) {
+//         return true;
+//       } else {
+//         return this.checkIfImagesSelected(this.selectedImagesRearLeft);
+//       }
 //     case 'RearRight':
-//       return this.checkIfImagesSelected(this.selectedImagesRearRight);
+//       if (this.activeDiv > 3) {
+//         return true;
+//       } else {
+//         return this.checkIfImagesSelected(this.selectedImagesRearRight);
+//       }
 //     default:
 //       return false;
 //   }
 // }
 
-// checkIfImagesSelected(images: any[]): boolean {
-//   return images.every(img => img.tab !== this.activeDiv);
-// }
+checkIfImagesSelected(images: any[]): boolean {
+  return images.every(img => img.tab !== this.activeDiv);
+}
+
+onBackButtonClick() {
+  // Check if an image is selected from each tab before switching to the previous tab
+  const isImageSelected = this.checkIfAllImagesSelected();
+  if (!isImageSelected) {
+    // Display a message if no image is selected in any tab
+    this.snackBar.open('Please select an image before proceeding.', 'Close', {
+      duration: 4000,
+      verticalPosition: 'top',
+      // panelClass: ['error-snackbar'],
+    });
+    return;
+  }
+  
+  // Assuming the back button switches to a previous tab
+  const previousTabNumber = this.activeDiv - 1;
+  this.activeDiv = previousTabNumber;
+}
+
+
 
 
 changedTab:any;
@@ -617,5 +653,111 @@ back() {
 
   }
 }
+
+checkIfAllImagesSelected(): boolean {
+  switch (this.activeButton) {
+    case 'FrontLeft':
+      return this.activeDiv === 4 && this.checkIfImagesSelectedForTab(this.selectedImagesFrontLeft, 4);
+    case 'FrontRight':
+      return this.activeDiv === 3 && this.checkIfImagesSelectedForTab(this.selectedImagesFrontRight, 3);
+    case 'RearLeft':
+      return this.activeDiv === 2 && this.checkIfImagesSelectedForTab(this.selectedImagesRearLeft, 2);
+    case 'RearRight':
+      return this.activeDiv === 3 && this.checkIfImagesSelectedForTab(this.selectedImagesRearRight, 3);
+    default:
+      return false;
+  }
+}
+checkIfImagesSelectedForTab(images: any[], requiredNumber: number): boolean {
+  const selectedImagesCount = images.filter(img => img.tab === this.activeDiv).length;
+  return selectedImagesCount === requiredNumber;
+}
+currentActiveDiv: number | null = null;
+showSubmitButton = false;
+doneButtonClicked =false;
+
+areEnoughImagesSelected(): boolean {
+
+
+  switch (this.activeButton) {
+    case 'FrontLeft':
+      return this.selectedImagesFrontLeft.length >= 4;
+    case 'FrontRight':
+      return this.selectedImagesFrontRight.length >= 3;
+    case 'RearRight':
+      return this.selectedImagesRearRight.length >= 3;
+    case 'RearLeft':
+      return this.selectedImagesRearLeft.length >= 2;
+    default:
+      return false;
+  }
+}
+
+
+
+
+getDoneButtonActiveDiv(activeButton: string): number {
+  switch (activeButton) {
+    case 'FrontLeft':
+      return 5;
+    case 'FrontRight':
+      return 4;
+    case 'RearRight':
+      return 4;
+    case 'RearLeft':
+      return 3;
+    default:
+      return 0; // Or any default value that fits your case
+  }
+}
+
+shouldHideSubmitButton(): boolean {
+  switch (this.activeButton) {
+    case 'FrontLeft':
+      return this.activeDiv === 5;
+    case 'FrontRight':
+      return this.activeDiv === 4;
+      case 'RearRight':
+        return this.activeDiv ===4;
+    case 'RearLeft':
+      return this.activeDiv === 3;
+    default:
+      return false;
+  }
+}
+
+
+getSubmitButtonActiveDiv(activeButton: string): number {
+  switch (activeButton) {
+    case 'FrontLeft':
+      return 4;
+    case 'FrontRight':
+      return 3;
+    case 'RearRight':
+      return 3;
+    case 'RearLeft':
+      return 2;
+    default:
+      return -1; // Or any default value according to your logic
+  }
+}
+
+isSubmitButtonActive(): boolean {
+  switch (this.activeButton) {
+    case 'FrontLeft':
+      return this.activeDiv === 4 && this.areEnoughImagesSelected();
+    case 'FrontRight':
+      return this.activeDiv === 3 && this.areEnoughImagesSelected();
+    case 'RearRight':
+      return this.activeDiv === 3 && this.areEnoughImagesSelected();
+    case 'RearLeft':
+      return this.activeDiv === 2 && this.areEnoughImagesSelected();
+    default:
+      return false; // Or any default value according to your logic
+  }
+}
+
+
+
 
 }

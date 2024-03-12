@@ -93,7 +93,7 @@
     <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(2)" [ngClass]="activeDiv==2?'activeTab':''">Door</div>
     <div class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(3)" [ngClass]="activeDiv==3?'activeTab':''" >DoorHandle</div>
     <div  class="tabContent"  *ngIf="activeDiv !== 5 " (click)="switchDiv(4)" [ngClass]="activeDiv==4?'activeTab':''" >HubCap</div>
-    <div   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></div>
+    <div  *ngIf="activeDiv !== 5 "   (click)="switchDiv(5)" [ngClass]="activeDiv==5?'activeTab':''"></div>
   </div>
 <div class="tabs" *ngIf="!isButtonDivVisible && activeButton === 'FrontRight'">
     <!-- Tab content for Front Right -->
@@ -127,7 +127,8 @@
   </div>
 </div>
 
-<div class="tabs" *ngIf="showMissingImages" style="display:flex;flex-direction: column;">
+
+<div class="tabs" *ngIf="showMissingImages " style="display:flex;flex-direction: column;">
   <h2 style="text-align: center; margin-top:1rem;">Missing Images</h2>
   <div class="img-grid">
     <div *ngFor="let img of missingImages" class="imgcontent">
@@ -140,8 +141,8 @@
     <button mat-raised-button color="primary" (click)="back()"  *ngIf="activeButton !== 'Submit'">Back</button>
     <!-- <button mat-raised-button color="primary" (click)="back()"  *ngIf="activeButton !== 'Submit' && activeButton === 'FrontRight'">Back</button> -->
 
-    <button style="width:5.5rem" mat-raised-button color="primary"  *ngIf="activeButton === 'Submit' && !showMissingImages" (click)="Validate()">Validate</button>
-    <button  mat-raised-button color="primary"  *ngIf="showMissingImages" (click)="submit()">Ok</button>
+    <!-- <button style="width:5.5rem" mat-raised-button color="primary"  *ngIf="activeButton === 'Submit' && !showMissingImages" (click)="Validate()">Validate</button>
+    <button  mat-raised-button color="primary"  *ngIf="showMissingImages" (click)="submit()">Ok</button> -->
     
     <!-- <button mat-raised-button color="primary" (click)="nextTab()" *ngIf="!showMissingImages && activeButton === 'FrontLeft' && activeDiv !==5 ">Next</button>
     <button mat-raised-button color="primary" (click)="nextTab()" *ngIf="!showMissingImages && activeButton === 'FrontRight' && activeDiv !==4 ">Next</button>
@@ -326,32 +327,40 @@
 
 
 
+</div>
 
-<div class="action" style="padding: 0.3rem" >
-  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv === 4 && activeButton === 'FrontLeft'" [disabled]="!(selectedImagesFrontLeft.length>0)">Submit</button>
+
+</div>
+<div *ngIf="!isButtonDivVisible">
+<!-- <div class="action" style="padding: 0.3rem">
+  <button mat-raised-button color="primary" (click)="onSubmit()"  [disabled]="!(selectedImagesFrontLeft.length>=4)">Submit</button>
   <button mat-raised-button color="primary" (click)="onClick('FrontLeft')" *ngIf="activeDiv === 5 && activeButton === 'FrontLeft'">Done</button>
 </div>
 
 <div class="action" style="padding:0.3rem">
-  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 && activeButton === 'FrontRight' "  [disabled]="!(selectedImagesFrontRight.length>0)" >Submit </button>
-  <button mat-raised-button color="primary" (click)="onClick('FrontRight')" *ngIf="activeDiv== 4 && activeButton === 'FrontRight'" >Done </button>
-
-</div>
-<div class="action" style="padding:0.3rem">
-  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 3 &&  activeButton === 'RearRight'" [disabled]="!(selectedImagesRearRight.length>0)">Submit </button>
-  <button mat-raised-button color="primary" (click)="onClick('RearRight')" *ngIf="activeDiv== 4 &&  activeButton === 'RearRight'" >Done </button>
-
+  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv === 3 && activeButton === 'FrontRight'" [disabled]="!(selectedImagesFrontRight.length>=3)">Submit</button>
+  <button mat-raised-button color="primary" (click)="onClick('FrontRight')" *ngIf="activeDiv === 4 && activeButton === 'FrontRight'">Done</button>
 </div>
 
 <div class="action" style="padding:0.3rem">
-  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv== 2 && activeButton === 'RearLeft'" [disabled]="!(selectedImagesRearLeft.length>0)">Submit </button>
-  <button mat-raised-button color="primary" (click)="onClick('RearLeft')" *ngIf="activeDiv== 3 && activeButton === 'RearLeft'" >Done </button>
-
+  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv === 3 && activeButton === 'RearRight'" [disabled]="!(selectedImagesRearRight.length>=3)">Submit</button>
+  <button mat-raised-button color="primary" (click)="onClick('RearRight')" *ngIf="activeDiv === 4 && activeButton === 'RearRight'">Done</button>
 </div>
 
+<div class="action" style="padding:0.3rem">
+  <button mat-raised-button color="primary" (click)="onSubmit()" *ngIf="activeDiv === 2 && activeButton === 'RearLeft'" [disabled]="!(selectedImagesRearLeft.length>=2)">Submit</button>
+  <button mat-raised-button color="primary" (click)="onClick('RearLeft')" *ngIf="activeDiv === 3 && activeButton === 'RearLeft'">Done</button>
+</div> -->
+
+<div class="action" style="padding: 1rem">
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]=" !areEnoughImagesSelected() || shouldHideSubmitButton()"   >Submit</button>
+  <button mat-raised-button color="primary" (click)="onClick(activeButton)" *ngIf="activeDiv === getDoneButtonActiveDiv(activeButton) && areEnoughImagesSelected()">Done</button>
 
 
 
+
+<button  mat-raised-button color="primary"  *ngIf="activeButton === 'Submit' && !showMissingImages" (click)="Validate()">Validate</button>
+<button  mat-raised-button color="primary"  *ngIf="showMissingImages" (click)="submit()">Ok</button>
 </div>
 </div>
 </div>

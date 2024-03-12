@@ -330,16 +330,34 @@ button[disabled] {
   justify-content: center;
   padding: 1rem;
   @include for-tab(){
-    padding:0.3rem;
+    padding:1rem;
   }
 
   button{
     width:8rem;
     @include for-tab(){
-      width:6rem;
+      width:7rem;
     }
   }
  }
 }
 }
+
+.action{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap:1rem;
+  @include for-tab(){
+    padding:1rem;
+  }
+
+  button{
+    width:8rem;
+    @include for-tab(){
+      width:7rem;
+    }
+  }
+ }
 }  

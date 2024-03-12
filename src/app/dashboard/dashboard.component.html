@@ -1,5 +1,5 @@
 <div class="container">
-    <button mat-raised-button (click)="openWindow()">Scan VIN/CIS Number</button>
+    <button mat-raised-button (click)="openWindow()">Scan VIN Number</button>
 <div *ngIf="show" class="content">
   <p style="color:red" *ngIf="isError">Barcode scan is not available.</p>
   <ngx-barcode-scanner  [(value)]="value"  [codes]="['code_128', 'ean', 'upc', 'upc_e', 'ean_8']"  [errorThreshold]="0.1" (exception)="onError($event)"(valueChange)="getValue($event)"></ngx-barcode-scanner>
