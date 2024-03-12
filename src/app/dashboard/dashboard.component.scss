@@ -19,7 +19,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap:1rem;
+  // gap:1rem;
 
   @include for-desktop(){
     width:80%;
@@ -44,6 +44,9 @@
     height: auto;
     overflow: hidden;
     padding:0.5rem;
+    @include for-desktop(){
+      width:65%;
+    }
     @include for-tab(){
       position: relative;
     width: 65%;
