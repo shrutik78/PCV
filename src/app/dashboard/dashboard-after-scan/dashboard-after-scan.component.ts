@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 
+
 interface TotalTabs{
   [key: string]: number;
 }
@@ -38,7 +39,7 @@ lightData:any[]=[];
 
 constructor(private activeRoute:ActivatedRoute,private http:HttpClient,
   private router:Router,private imageService:ImagesService,
-  private snackBar: MatSnackBar){
+  private snackBar: MatSnackBar,){
   
   }
   ngAfterViewInit(): void {
@@ -428,6 +429,7 @@ Validate() {
           if (confirmation.isConfirmed) {
             // Set showMissingImages to true when the user clicks OK
             this.showMissingImages = true;
+            this.printMessage('NOT OK', this.vinNumber);
           }
         });
       }
@@ -495,7 +497,6 @@ activeButton: string = '';
 
 toggleDivs(button: string) {
     this.activeButton = button;
-  
     switch (button) {
         case 'FrontLeft':  
             this.isButtonDivVisible = !this.isButtonDivVisible;
@@ -524,6 +525,7 @@ toggleDivs(button: string) {
             break;
     }
 }  
+
 
 activeDiv: number=1 ;
 switchDiv(divNumber: number) {
